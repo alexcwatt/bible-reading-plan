@@ -23,7 +23,7 @@ def main():
     for reading_and_date in all_readings_with_dates:
         reading, due_date = reading_and_date
         due_string = due_date.strftime("%Y-%m-%d")
-        api.add_task(content=reading, project_id=project_id, due_string=due_string)
+        api.add_task(content=f"Read {reading}", project_id=project_id, due_string=due_string)
         print(".", end="", flush=True)
     
     print("\nDone")
