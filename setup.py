@@ -13,7 +13,7 @@ setup(
     url='https://github.com/alexcwatt/bible-reading-plan',
     entry_points={
         'console_scripts': [
-            'import = bible_reading_plan.import:main',
+            'todoist-bible-plan = bible_reading_plan.importer:main',
         ],
     },
 )

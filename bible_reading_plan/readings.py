@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-FIRST_MONDAY = datetime(2024, 1, 1)
 WEEKS_IN_YEAR = 52
 READINGS_PER_WEEK = 5
 
@@ -12,7 +11,7 @@ def readings():
     assert len(lines) == expected_readings, f"Incorrect number of readings. Expected {expected_readings}, got {len(lines)}."
     return lines
 
-def readings_with_dates():
+def readings_with_dates(first_monday):
     all_readings = readings()
     readings_with_dates = []
 
@@ -21,7 +20,7 @@ def readings_with_dates():
             index = week * READINGS_PER_WEEK + day
 
             reading = all_readings[index]
-            date = FIRST_MONDAY + timedelta(weeks=week, days=day)
+            date = first_monday + timedelta(weeks=week, days=day)
 
             readings_with_dates.append([reading, date])
 
