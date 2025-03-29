@@ -1,8 +1,11 @@
-import os
 from datetime import datetime
+
+from dotenv import load_dotenv
 
 from bible_reading_plan.readings import readings_with_dates, reading_to_chapters
 from bible_reading_plan.esv_audio import build_reading_file
+
+load_dotenv()
 
 
 def main():
