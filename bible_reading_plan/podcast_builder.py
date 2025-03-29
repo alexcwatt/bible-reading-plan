@@ -19,7 +19,7 @@ def main():
         print(
             f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}, Week: {reading_with_date.week}, Day: {reading_with_date.day}"
         )
-        build_reading_file(reading, reading_with_date.week, reading_with_date.day)
+        build_reading_file(reading_with_date)
         print(".", end="", flush=True)
         raise "Something went wrong"
 

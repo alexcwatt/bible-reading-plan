@@ -1,5 +1,6 @@
 import os
 
+from gtts import gTTS
 import ffmpeg
 import requests
 
@@ -12,24 +13,47 @@ class DownloadError(Exception):
     """
 
 
-def build_reading_file(reading, week, day):
+def build_reading_file(reading):
     """
     Build the audio file for a given reading.
     """
-    chapters = reading_to_chapters(reading)
     audio_files = []
 
-    for chapter in chapters:
+    # Generate the intro
+    generate_reading_intro(reading)
+    audio_files.append(reading_intro_file_path(reading.week, reading.day))
+
+    for chapter in reading_to_chapters(reading.reading):
         download_audio(chapter)
         audio_files.append(audio_file_path(chapter))
 
-    output_path = reading_file_path(week, day)
+    output_path = reading_file_path(reading.week, reading.day)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     # Concatenate audio files
     input_files = [ffmpeg.input(file) for file in audio_files]
     output = ffmpeg.concat(*input_files, v=0, a=1).output(output_path)
     output.run(overwrite_output=True)
+
+
+def reading_intro_file_path(week, day):
+    """
+    Get the file path for the reading intro.
+    """
+    return f"build/reading_intros/W{week:02d}_D{day:02d}.mp3"
+
+
+def generate_reading_intro(reading):
+    """
+    Generate an intro for the reading.
+    """
+    intro = (
+        f"Week {reading.week}, Day {reading.day}. Today's reading is {reading.reading}."
+    )
+    tts = gTTS(intro, lang="en")
+    audio_path = reading_intro_file_path(reading.week, reading.day)
+    os.makedirs(os.path.dirname(audio_path), exist_ok=True)
+    tts.save(audio_path)
 
 
 def reading_file_path(week, day):
