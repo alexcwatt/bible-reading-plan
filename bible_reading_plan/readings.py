@@ -29,3 +29,23 @@ def readings_with_dates(first_monday):
             readings_with_dates.append([reading, date])
 
     return readings_with_dates
+
+
+def reading_to_chapters(reading):
+    """
+    Convert a reading string to a list of chapters.
+    """
+    chapters = []
+    for part in reading.split(";"):
+        book_part, chapter_part = part.strip().split(" ")
+        if "-" in chapter_part:
+            start, end = chapter_part.split("-")
+            start = int(start.strip())
+            end = int(end.strip())
+            chapters.extend(
+                [f"{book_part} {chapter}" for chapter in range(start, end + 1)]
+            )
+        else:
+            chapters.append(part.strip())
+
+    return chapters
