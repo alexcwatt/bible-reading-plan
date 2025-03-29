@@ -12,6 +12,10 @@ def main():
 
     print("Generating readings")
     for reading_with_date in all_readings_with_dates:
+        if reading_with_date.week <= 10:
+            print("Skipping readings for week <= 10")
+            continue
+
         reading = reading_with_date.reading
         due_date = reading_with_date.due_date
         due_string = due_date.strftime("%Y-%m-%d")
@@ -21,6 +25,5 @@ def main():
         )
         build_reading_file(reading_with_date)
         print(".", end="", flush=True)
-        raise "Something went wrong"
 
     print("\nDone")
