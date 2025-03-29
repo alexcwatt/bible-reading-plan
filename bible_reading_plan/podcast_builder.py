@@ -21,5 +21,6 @@ def main():
         )
         build_reading_file(reading, reading_with_date.week, reading_with_date.day)
         print(".", end="", flush=True)
+        raise "Something went wrong"
 
     print("\nDone")

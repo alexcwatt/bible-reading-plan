@@ -1,5 +1,6 @@
 import os
 
+import ffmpeg
 import requests
 
 from bible_reading_plan.readings import reading_to_chapters
@@ -25,10 +26,10 @@ def build_reading_file(reading, week, day):
     output_path = reading_file_path(week, day)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-    with open(output_path, "wb") as output_file:
-        for audio_file in audio_files:
-            # somehow correctly concatenate the MP# files
-            print(f"TBD - concatenate audio file {audio_file}")
+    # Concatenate audio files
+    input_files = [ffmpeg.input(file) for file in audio_files]
+    output = ffmpeg.concat(*input_files, v=0, a=1).output(output_path)
+    output.run(overwrite_output=True)
 
 
 def reading_file_path(week, day):
