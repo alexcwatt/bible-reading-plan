@@ -33,7 +33,7 @@ def build_reading_file(reading):
     # Concatenate audio files
     input_files = [ffmpeg.input(file) for file in audio_files]
     output = ffmpeg.concat(*input_files, v=0, a=1).output(output_path)
-    output.run(overwrite_output=True)
+    output.run(overwrite_output=True, quiet=True)
 
 
 def reading_intro_file_path(week, day):
