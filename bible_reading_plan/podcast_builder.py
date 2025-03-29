@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from bible_reading_plan.readings import readings_with_dates
+from bible_reading_plan.readings import readings_with_dates, reading_to_chapters
 
 
 def main():
@@ -13,7 +13,8 @@ def main():
     for reading_and_date in all_readings_with_dates:
         reading, due_date = reading_and_date
         due_string = due_date.strftime("%Y-%m-%d")
-        print(f"Read {reading} due {due_string}")
+        chapters = reading_to_chapters(reading)
+        print(f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}")
         print(".", end="", flush=True)
 
     print("\nDone")

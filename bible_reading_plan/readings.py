@@ -37,7 +37,14 @@ def reading_to_chapters(reading):
     """
     chapters = []
     for part in reading.split(";"):
-        book_part, chapter_part = part.strip().split(" ")
+        part = part.strip()
+
+        # Handle cases where the reading is a single chapter book
+        if len(part.split(" ")) == 1:
+            chapters.append(part)
+            continue
+
+        book_part, chapter_part = part.rsplit(" ", 1)
         if "-" in chapter_part:
             start, end = chapter_part.split("-")
             start = int(start.strip())
@@ -46,6 +53,6 @@ def reading_to_chapters(reading):
                 [f"{book_part} {chapter}" for chapter in range(start, end + 1)]
             )
         else:
-            chapters.append(part.strip())
+            chapters.append(part)
 
     return chapters
