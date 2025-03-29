@@ -10,6 +10,7 @@ repository = "https://github.com/alexcwatt/bible-reading-plan"
 [tool.poetry.dependencies]
 python = "^3.13"
 todoist-api-python = ">=2.0,<3.0"
+requests = "^2.32.3"
 
 [poetry.group.dev.dependencies]
 pytest = "^8.3"
