@@ -2,6 +2,8 @@ import os
 
 import requests
 
+from bible_reading_plan.readings import reading_to_chapters
+
 
 class DownloadError(Exception):
     """
@@ -9,12 +11,39 @@ class DownloadError(Exception):
     """
 
 
+def build_reading_file(reading, week, day):
+    """
+    Build the audio file for a given reading.
+    """
+    chapters = reading_to_chapters(reading)
+    audio_files = []
+
+    for chapter in chapters:
+        download_audio(chapter)
+        audio_files.append(audio_file_path(chapter))
+
+    output_path = reading_file_path(week, day)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    with open(output_path, "wb") as output_file:
+        for audio_file in audio_files:
+            # somehow correctly concatenate the MP# files
+            print(f"TBD - concatenate audio file {audio_file}")
+
+
+def reading_file_path(week, day):
+    """
+    Get the file path for a given reading.
+    """
+    return f"build/readings/W{week:02d}_D{day:02d}.mp3"
+
+
 def audio_file_path(chapter):
     """
     Convert a chapter string to an audio file path.
     """
     filename = chapter.replace(" ", "_")
-    return f"build/esv_audio/{filename}.mp3"
+    return f"build/esv_chapters/{filename}.mp3"
 
 
 def download_audio(chapter, force=False):

@@ -1,7 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
+from collections import namedtuple
 
 WEEKS_IN_YEAR = 52
 READINGS_PER_WEEK = 5
+
+Reading = namedtuple("Reading", ["reading", "due_date", "week", "day"])
 
 
 def readings():
@@ -26,7 +29,7 @@ def readings_with_dates(first_monday):
             reading = all_readings[index]
             date = first_monday + timedelta(weeks=week, days=day)
 
-            readings_with_dates.append([reading, date])
+            readings_with_dates.append(Reading(reading, date, week + 1, day + 1))
 
     return readings_with_dates
 

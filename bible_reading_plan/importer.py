@@ -26,9 +26,9 @@ def main():
     all_readings_with_dates = readings_with_dates(first_monday)
 
     print("Adding readings to Todoist")
-    for reading_and_date in all_readings_with_dates:
-        reading, due_date = reading_and_date
-        due_string = due_date.strftime("%Y-%m-%d")
+    for reading_with_date in all_readings_with_dates:
+        reading = reading_with_date.reading
+        due_string = reading_with_date.due_date.strftime("%Y-%m-%d")
         api.add_task(
             content=f"Read {reading}", project_id=project_id, due_string=due_string
         )

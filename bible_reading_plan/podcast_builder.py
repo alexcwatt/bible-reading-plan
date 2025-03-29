@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from bible_reading_plan.readings import readings_with_dates, reading_to_chapters
+from bible_reading_plan.esv_audio import build_reading_file
 
 
 def main():
@@ -10,11 +11,15 @@ def main():
     all_readings_with_dates = readings_with_dates(first_monday)
 
     print("Generating readings")
-    for reading_and_date in all_readings_with_dates:
-        reading, due_date = reading_and_date
+    for reading_with_date in all_readings_with_dates:
+        reading = reading_with_date.reading
+        due_date = reading_with_date.due_date
         due_string = due_date.strftime("%Y-%m-%d")
         chapters = reading_to_chapters(reading)
-        print(f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}")
+        print(
+            f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}, Week: {reading_with_date.week}, Day: {reading_with_date.day}"
+        )
+        build_reading_file(reading, reading_with_date.week, reading_with_date.day)
         print(".", end="", flush=True)
 
     print("\nDone")
