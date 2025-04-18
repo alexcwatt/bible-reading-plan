@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import argparse
 import os
 import shutil
 
@@ -19,6 +20,7 @@ def build_all_audio_files():
     for scheduled_reading in SCHEDULED_READINGS:
         build_reading_file(scheduled_reading)
         print(".", end="", flush=True)
+
 
 def build_podcast_feed():
     gcs_bucket = os.environ.get("GCS_BUCKET")
@@ -68,5 +70,26 @@ def build_podcast_feed():
 
     print("\nDone")
 
+
 def main():
-    
+    parser = argparse.ArgumentParser(
+        description="CLI for building Bible reading plan resources."
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # Subcommand for building all audio files
+    parser_audio = subparsers.add_parser(
+        "build-audio", help="Build all audio files for the Bible readings."
+    )
+
+    # Subcommand for building the podcast feed
+    parser_feed = subparsers.add_parser(
+        "build-feed", help="Build the podcast XML feed."
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "build-audio":
+        build_all_audio_files()
+    elif args.command == "build-feed":
+        build_podcast_feed()
