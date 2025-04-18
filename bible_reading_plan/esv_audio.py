@@ -5,8 +5,6 @@ from gtts import gTTS
 import ffmpeg
 import requests
 
-from bible_reading_plan.readings import reading_to_chapters
-
 
 class DownloadError(Exception):
     """
@@ -21,12 +19,10 @@ def build_reading_file(reading):
     audio_files = []
 
     # Generate the intro
-    intro_text = (
-        f"Week {reading.week}, Day {reading.day}. Today's reading is {reading.reading}."
-    )
+    intro_text = f"Week {reading.week}, Day {reading.day}. Today's reading is {reading.scripture_reading.nice_name()}."
     audio_files.append(generate_or_get_audio(intro_text))
 
-    for chapter in reading_to_chapters(reading.reading):
+    for chapter in reading.scripture_reading.to_chapters():
         download_audio(chapter)
         audio_files.append(audio_file_path(chapter))
 

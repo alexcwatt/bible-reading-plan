@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from feedgen.feed import FeedGenerator
 
-from bible_reading_plan.readings import readings_with_dates, reading_to_chapters
+from bible_reading_plan.readings import readings_with_dates
 from bible_reading_plan.esv_audio import build_reading_file, reading_file_path
 
 load_dotenv()
@@ -27,29 +27,29 @@ def main():
     fg.link(href=f"https://storage.googleapis.com/{gcs_bucket}/", rel="alternate")
     fg.description("A weekday Bible reading plan podcast.")
     fg.id(f"https://storage.googleapis.com/#{gcs_bucket}")
-    for reading_with_date in all_readings_with_dates:
-        if reading_with_date.week <= 10:
+    for scheduled_reading in all_readings_with_dates:
+        if scheduled_reading.week <= 10:
             print("Skipping readings for week <= 10")
             continue
 
-        if reading_with_date.week > 12:
+        if scheduled_reading.week > 12:
             print("Skipping readings for week > 12")
             continue
 
-        reading = reading_with_date.reading
-        due_date = reading_with_date.due_date
+        reading = scheduled_reading.scripture_reading.nice_name()
+        due_date = scheduled_reading.due_date
         due_string = due_date.strftime("%Y-%m-%d")
-        chapters = reading_to_chapters(reading)
+        chapters = scheduled_reading.scripture_reading.to_chapters()
         print(
-            f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}, Week: {reading_with_date.week}, Day: {reading_with_date.day}"
+            f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}, Week: {scheduled_reading.week}, Day: {scheduled_reading.day}"
         )
-        build_reading_file(reading_with_date)
+        build_reading_file(scheduled_reading)
         fe = fg.add_entry()
         fe.title(
-            f"Week {reading_with_date.week}, Day {reading_with_date.day}: {reading_with_date.reading}"
+            f"Week {scheduled_reading.week}, Day {scheduled_reading.day}: {scheduled_reading.reading_nice_name()}"
         )
         reading_local_path = reading_file_path(
-            reading_with_date.week, reading_with_date.day
+            scheduled_reading.week, scheduled_reading.day
         )
         reading_filename = reading_local_path.split("/")[-1]
         url = f"https://storage.googleapis.com/{gcs_bucket}/readings/{reading_filename}"
