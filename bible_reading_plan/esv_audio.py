@@ -22,8 +22,18 @@ def build_reading_file(reading):
     intro_text = f"Week {reading.week}, Day {reading.day}. Today's reading is {reading.scripture_reading.nice_name()}."
     audio_files.append(generate_or_get_audio(intro_text))
 
+    # Generate a short silent audio file for pauses
+    pause_path = "build/silence.mp3"
+    if not os.path.exists(pause_path):
+        os.makedirs(os.path.dirname(pause_path), exist_ok=True)
+        ffmpeg.input("anullsrc=r=44100:cl=mono", f="lavfi", t=1).output(pause_path).run(
+            overwrite_output=True, quiet=True
+        )
+
     for chapter in reading.scripture_reading.to_chapters():
+        audio_files.append(pause_path)
         audio_files.append(generate_or_get_audio(chapter))
+        audio_files.append(pause_path)
         download_audio(chapter)
         audio_files.append(audio_file_path(chapter))
 
