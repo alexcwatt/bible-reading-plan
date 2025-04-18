@@ -23,6 +23,7 @@ def build_reading_file(reading):
     audio_files.append(generate_or_get_audio(intro_text))
 
     for chapter in reading.scripture_reading.to_chapters():
+        audio_files.append(generate_or_get_audio(chapter))
         download_audio(chapter)
         audio_files.append(audio_file_path(chapter))
 
