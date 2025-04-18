@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 import os
+import shutil
 
 from dotenv import load_dotenv
 from feedgen.feed import FeedGenerator
@@ -20,13 +21,19 @@ def main():
         print("Error: GCS_BUCKET environment variable not set")
         return
 
+    if not os.path.exists("build"):
+        os.makedirs("build", exist_ok=True)
+
+    shutil.copy("static/podcast-logo.png", "build/logo.png")
+
     print("Generating readings and podcast feed")
     fg = FeedGenerator()
     fg.load_extension("podcast")
     fg.title("Five Day Bible Reading Plan")
     fg.link(href=f"https://storage.googleapis.com/{gcs_bucket}/", rel="alternate")
     fg.description("A weekday Bible reading plan podcast.")
-    fg.id(f"https://storage.googleapis.com/#{gcs_bucket}")
+    fg.id(f"https://storage.googleapis.com/{gcs_bucket}")
+    fg.logo(f"https://storage.googleapis.com/{gcs_bucket}/logo.png")
     for scheduled_reading in all_readings_with_dates:
         if scheduled_reading.week <= 10:
             print("Skipping readings for week <= 10")
