@@ -11,5 +11,5 @@ def test_reading_to_chapters():
     assert reading_to_chapters(reading) == expected
 
     reading = "2 Chr 15-16; 1 Kin 16; Philemon"
-    expected = ["2 Chr 15", "2 Chr 16", "1 Kin 16", "Philemon"]
+    expected = ["2 Chronicles 15", "2 Chronicles 16", "1 Kings 16", "Philemon"]
     assert reading_to_chapters(reading) == expected

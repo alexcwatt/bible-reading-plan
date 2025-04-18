@@ -1,6 +1,8 @@
 from datetime import timedelta
 from collections import namedtuple
 
+from .bible_books import full_book_name_from_abbreviation
+
 WEEKS_IN_YEAR = 52
 READINGS_PER_WEEK = 5
 
@@ -8,6 +10,9 @@ Reading = namedtuple("Reading", ["reading", "due_date", "week", "day"])
 
 
 def readings():
+    """
+    Reads the readings from the 'readings.txt' file and validates the count.
+    """
     with open("readings.txt", "r") as file:
         lines = [line.strip() for line in file]
 
@@ -19,6 +24,9 @@ def readings():
 
 
 def readings_with_dates(first_monday):
+    """
+    Generates a list of Reading objects with their corresponding due dates.
+    """
     all_readings = readings()
     readings_with_dates = []
 
@@ -36,7 +44,7 @@ def readings_with_dates(first_monday):
 
 def reading_to_chapters(reading):
     """
-    Convert a reading string to a list of chapters.
+    Converts a reading string to a list of chapters.
     """
     chapters = []
     for part in reading.split(";"):
@@ -48,14 +56,18 @@ def reading_to_chapters(reading):
             continue
 
         book_part, chapter_part = part.rsplit(" ", 1)
+        full_book_name = full_book_name_from_abbreviation(book_part)
+        if not full_book_name:
+            raise ValueError(f"Invalid book abbreviation: {book_part}")
+
         if "-" in chapter_part:
             start, end = chapter_part.split("-")
             start = int(start.strip())
             end = int(end.strip())
             chapters.extend(
-                [f"{book_part} {chapter}" for chapter in range(start, end + 1)]
+                [f"{full_book_name} {chapter}" for chapter in range(start, end + 1)]
             )
         else:
-            chapters.append(part)
+            chapters.append(f"{full_book_name} {chapter_part}")
 
     return chapters
