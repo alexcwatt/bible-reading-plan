@@ -10,12 +10,17 @@ from bible_reading_plan.esv_audio import build_reading_file, reading_file_path
 
 load_dotenv()
 
+FIRST_MONDAY_STRING = "2024-12-30"
+FIRST_MONDAY = datetime.strptime(FIRST_MONDAY_STRING, "%Y-%m-%d")
+SCHEDULED_READINGS = readings_with_dates(FIRST_MONDAY)
 
-def main():
-    first_monday_string = "2024-12-30"
-    first_monday = datetime.strptime(first_monday_string, "%Y-%m-%d")
-    all_readings_with_dates = readings_with_dates(first_monday)
 
+def build_all_audio_files():
+    for scheduled_reading in SCHEDULED_READINGS:
+        build_reading_file(scheduled_reading)
+        print(".", end="", flush=True)
+
+def build_podcast_feed():
     gcs_bucket = os.environ.get("GCS_BUCKET")
     if not gcs_bucket:
         print("Error: GCS_BUCKET environment variable not set")
@@ -34,23 +39,12 @@ def main():
     fg.description("A weekday Bible reading plan podcast.")
     fg.id(f"https://storage.googleapis.com/{gcs_bucket}")
     fg.logo(f"https://storage.googleapis.com/{gcs_bucket}/logo.png")
-    for scheduled_reading in all_readings_with_dates:
-        if scheduled_reading.week <= 10:
-            print("Skipping readings for week <= 10")
-            continue
-
-        if scheduled_reading.week > 12:
-            print("Skipping readings for week > 12")
-            continue
+    for scheduled_reading in SCHEDULED_READINGS:
+        if scheduled_reading.due_date > datetime.now():
+            break
 
         reading = scheduled_reading.scripture_reading.nice_name()
         due_date = scheduled_reading.due_date
-        due_string = due_date.strftime("%Y-%m-%d")
-        chapters = scheduled_reading.scripture_reading.to_chapters()
-        print(
-            f"Reading: {reading}, Due Date: {due_string}, Chapters: {chapters}, Week: {scheduled_reading.week}, Day: {scheduled_reading.day}"
-        )
-        build_reading_file(scheduled_reading)
         fe = fg.add_entry()
         fe.title(
             f"Week {scheduled_reading.week}, Day {scheduled_reading.day}: {scheduled_reading.reading_nice_name()}"
@@ -73,3 +67,6 @@ def main():
     print(f"\nPodcast feed saved to {feed_filename}")
 
     print("\nDone")
+
+def main():
+    

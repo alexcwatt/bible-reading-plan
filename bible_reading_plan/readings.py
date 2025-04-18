@@ -1,6 +1,8 @@
 from datetime import timedelta
 from .bible_books import full_book_name_from_abbreviation
 
+import re
+
 WEEKS_IN_YEAR = 52
 READINGS_PER_WEEK = 5
 
@@ -26,7 +28,7 @@ class ScriptureReading:
                 chapters.append(part)
                 continue
 
-            book_part, chapter_part = part.rsplit(" ", 1)
+            book_part, chapter_part = self._book_and_chapter_parts(part)
             full_book_name = full_book_name_from_abbreviation(book_part)
             if not full_book_name:
                 raise ValueError(f"Invalid book abbreviation: {book_part}")
@@ -38,6 +40,10 @@ class ScriptureReading:
                 chapters.extend(
                     [f"{full_book_name} {chapter}" for chapter in range(start, end + 1)]
                 )
+            elif "," in chapter_part:
+                for chapter in chapter_part.split(","):
+                    chapter = chapter.strip()
+                    chapters.append(f"{full_book_name} {chapter}")
             else:
                 chapters.append(f"{full_book_name} {chapter_part}")
 
@@ -50,7 +56,7 @@ class ScriptureReading:
         parts = [part.strip() for part in self.raw_reading.split(";")]
         output = []
         for part in parts:
-            book_part, chapter_range_part = part.rsplit(" ", 1)
+            book_part, chapter_range_part = self._book_and_chapter_parts(part)
             full_book_name = full_book_name_from_abbreviation(book_part)
             if not full_book_name:
                 raise ValueError(f"Invalid book abbreviation: {book_part}")
@@ -61,6 +67,20 @@ class ScriptureReading:
             return output[0]
         else:
             return "; ".join(output[:-1]) + "; and " + output[-1]
+
+    def _book_and_chapter_parts(self, passage):
+        """
+        Splits the passage into book and chapter parts.
+        """
+        match_chapter_part_begin = re.search(r"\D(\d+)", passage)
+        if not match_chapter_part_begin:
+            raise ValueError(f"Could not identify chapter part of reading: {passage}")
+        chapter_part_index = match_chapter_part_begin.start()
+        book_part, chapter_part = (
+            passage[:chapter_part_index],
+            passage[chapter_part_index + 1 :],
+        )
+        return book_part.strip(), chapter_part.strip()
 
 
 class ScheduledReading:
