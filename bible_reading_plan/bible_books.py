@@ -72,6 +72,9 @@ def full_book_name_from_abbreviation(abbreviation):
     """
     Convert a book abbreviation to its full name.
     """
+    if abbreviation == "Psalms":
+        return "Psalms"
+
     for book in BIBLE_BOOKS:
         if book.startswith(abbreviation):
             return book

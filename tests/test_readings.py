@@ -21,6 +21,12 @@ def test_reading_to_chapters_with_commas():
     assert reading.to_chapters() == expected
 
 
+def test_reading_to_chapters_for_single_chapter_books():
+    reading = ScriptureReading("Obadiah; Jude; Philemon; Psalm 117")
+    expected = ["Obadiah", "Jude", "Philemon", "Psalm 117"]
+    assert reading.to_chapters() == expected
+
+
 def test_reading_nice_name():
     reading = ScriptureReading("Ps 119")
     expected = "Psalm 119"
@@ -38,4 +44,14 @@ def test_reading_nice_name():
 def test_reading_nice_name_with_commas():
     reading = ScriptureReading("Jer 22, 23, 26; Psalm 77; James 2")
     expected = "Jeremiah 22, 23, 26; Psalm 77; and James 2"
+    assert reading.nice_name() == expected
+
+
+def test_reading_nice_name_for_single_chapter_books():
+    reading = ScriptureReading("Obadiah; Jude; Philemon; Psalm 117")
+    expected = "Obadiah; Jude; Philemon; and Psalm 117"
+    assert reading.nice_name() == expected
+
+    reading = ScriptureReading("Zechariah 12-14; Psalm 94; 2 John")
+    expected = "Zechariah 12-14; Psalm 94; and 2 John"
     assert reading.nice_name() == expected

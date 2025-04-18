@@ -23,17 +23,14 @@ class ScriptureReading:
         for part in self.raw_reading.split(";"):
             part = part.strip()
 
-            # Handle cases where the reading is a single chapter book
-            if len(part.split(" ")) == 1:
-                chapters.append(part)
-                continue
-
             book_part, chapter_part = self._book_and_chapter_parts(part)
             full_book_name = full_book_name_from_abbreviation(book_part)
             if not full_book_name:
                 raise ValueError(f"Invalid book abbreviation: {book_part}")
 
-            if "-" in chapter_part:
+            if chapter_part is None:
+                chapters.append(full_book_name)
+            elif "-" in chapter_part:
                 start, end = chapter_part.split("-")
                 start = int(start.strip())
                 end = int(end.strip())
@@ -61,7 +58,11 @@ class ScriptureReading:
             if not full_book_name:
                 raise ValueError(f"Invalid book abbreviation: {book_part}")
 
-            output.append(f"{full_book_name} {chapter_range_part}")
+            output.append(
+                f"{full_book_name} {chapter_range_part}"
+                if chapter_range_part
+                else full_book_name
+            )
 
         if len(output) == 1:
             return output[0]
@@ -74,7 +75,9 @@ class ScriptureReading:
         """
         match_chapter_part_begin = re.search(r"\D(\d+)", passage)
         if not match_chapter_part_begin:
-            raise ValueError(f"Could not identify chapter part of reading: {passage}")
+            # Must be a book with one chapter
+            return passage.strip(), None
+
         chapter_part_index = match_chapter_part_begin.start()
         book_part, chapter_part = (
             passage[:chapter_part_index],
