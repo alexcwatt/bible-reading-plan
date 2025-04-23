@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install Poetry
         run: |
@@ -41,6 +41,8 @@ jobs:
         run: poetry install
 
       - name: Build podcast feed
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
         run: poetry run podcast-bible-plan build-feed
 
       - name: Authenticate with Google Cloud
@@ -52,4 +54,4 @@ jobs:
         uses: google-github-actions/upload-cloud-storage@v2
         with:
           path: build/podcast.xml
-          destination: '${{ secrets.GCS_BUCKET }}/podcast.xml'
+          destination: '${{ secrets.GCS_BUCKET }}'
