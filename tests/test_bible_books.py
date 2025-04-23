@@ -1,4 +1,4 @@
-from bible_reading_plan.bible_books import full_book_name_from_abbreviation
+from bible_reading_plan.utils.bible_books import full_book_name_from_abbreviation
 
 
 def test_full_book_name_from_abbreviation():

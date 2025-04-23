@@ -3,7 +3,7 @@ from datetime import datetime
 
 from todoist_api_python.api import TodoistAPI
 
-from bible_reading_plan.readings import readings_with_dates
+from bible_reading_plan.utils.readings import readings_with_dates
 
 
 def main():

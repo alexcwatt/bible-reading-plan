@@ -20,5 +20,5 @@ feedgen = "^1.0.0"
 pytest = "^8.3"
 
 [tool.poetry.scripts]
-todoist-bible-plan = "bible_reading_plan.importer:main"
-podcast-bible-plan = "bible_reading_plan.podcast_builder:main"
+todoist-bible-plan = "bible_reading_plan.cli.importer:main"
+podcast-bible-plan = "bible_reading_plan.cli.podcast_builder:main"

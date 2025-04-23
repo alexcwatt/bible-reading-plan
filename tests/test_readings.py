@@ -1,4 +1,4 @@
-from bible_reading_plan.readings import ScriptureReading
+from bible_reading_plan.utils.readings import ScriptureReading
 
 
 def test_reading_to_chapters():

@@ -6,8 +6,8 @@ import shutil
 from dotenv import load_dotenv
 from feedgen.feed import FeedGenerator
 
-from bible_reading_plan.readings import readings_with_dates
-from bible_reading_plan.esv_audio import build_reading_file, reading_file_path
+from bible_reading_plan.utils.readings import readings_with_dates
+from bible_reading_plan.utils.esv_audio import build_reading_file, reading_file_path
 
 load_dotenv()
 
