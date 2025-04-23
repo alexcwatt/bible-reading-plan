@@ -1,2 +1,6 @@
 __pycache__/
 *.egg-info/
+build/
+*.mp3
+.env
+.DS_Store

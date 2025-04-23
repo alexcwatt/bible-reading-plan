@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "bible_reading_plan"
+version = "0.1"
+description = "Push the Five Day Bible Reading Plan to Todoist"
+authors = ["Alex Watt <alex@alexcwatt.com>"]
+license = "MIT"
+homepage = "https://github.com/alexcwatt/bible-reading-plan"
+repository = "https://github.com/alexcwatt/bible-reading-plan"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+todoist-api-python = ">=2.0,<3.0"
+requests = "^2.32.3"
+ffmpeg-python = "^0.2.0"
+gtts = "^2.5.4"
+dotenv = "^0.9.9"
+feedgen = "^1.0.0"
+
+[poetry.group.dev.dependencies]
+pytest = "^8.3"
+
+[tool.poetry.scripts]
+todoist-bible-plan = "bible_reading_plan.cli.importer:main"
+podcast-bible-plan = "bible_reading_plan.cli.podcast_builder:main"

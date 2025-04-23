@@ -23,3 +23,9 @@ You'll need Python installed to use this tool.
 3. Clone this repository: `git clone git@github.com:alexcwatt/bible-reading-plan`
 4. Install the package: `pip install -e .`
 5. Run the importer to add the reading schedule to Todoist: `TODOIST_API_TOKEN=yourtoken TODOIST_PROJECT_ID=yourprojectid todoist-bible-plan`
+
+## Podcast
+
+I'm experimenting with building a podcast so I can listen to the reading on days when I can't sit down and read it. The podcast uses the ESV API to pull the MP3 files for each chapter, as well as a Google API to generate other podcast audio (e.g., "Today's reading is Genesis 1-2, Psalm 19, and Mark 1").
+
+I'm not sure that this code is useful to others, but the entrypoint is `podcast-bible-plan`.
