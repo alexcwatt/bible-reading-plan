@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: '0 9 * * 1-5' # Runs at 09:00 UTC on Monday–Friday
   workflow_dispatch:
-  push:
-    branches:
-      - podcast-github-action
 
 jobs:
   build-and-upload:
