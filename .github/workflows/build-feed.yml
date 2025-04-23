@@ -44,6 +44,8 @@ jobs:
         run: poetry install
 
       - name: Build podcast feed
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
         run: poetry run podcast-bible-plan build-feed
 
       - name: Authenticate with Google Cloud
