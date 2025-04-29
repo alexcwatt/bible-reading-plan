@@ -37,6 +37,8 @@ def build_reading_file(reading):
         download_audio(chapter)
         audio_files.append(audio_file_path(chapter))
 
+    audio_files.append(pause_path)
+
     output_path = reading_file_path(reading.week, reading.day)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
