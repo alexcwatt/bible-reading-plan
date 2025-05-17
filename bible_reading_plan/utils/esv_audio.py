@@ -1,3 +1,4 @@
+import json
 import os
 import hashlib
 
@@ -35,6 +36,7 @@ def build_reading_file(reading):
         audio_files.append(generate_or_get_audio(chapter))
         audio_files.append(pause_path)
         download_audio(chapter)
+        record_audio_file_length(chapter)
         audio_files.append(audio_file_path(chapter))
 
     audio_files.append(pause_path)
@@ -90,6 +92,22 @@ def download_audio(chapter, force=False):
 
     except requests.exceptions.RequestException as e:
         raise DownloadError(f"Failed to download audio for {chapter}: {e}")
+
+
+def record_audio_file_length(chapter):
+    file_path = audio_file_path(chapter)
+    metadata = ffmpeg.probe(file_path)
+    length = round(float(metadata["format"]["duration"]), 1)
+    metadata_file_path = f"bible_reading_plan/metadata/bible_chapter_lengths.json"
+
+    if not os.path.exists(metadata_file_path):
+        with open(metadata_file_path, "w") as f:
+            json.dump({chapter: length}, f, indent=4)
+    else:
+        data = json.load(open(metadata_file_path, "r"))
+        data[chapter] = length
+        with open(metadata_file_path, "w") as f:
+            json.dump(data, f, indent=4)
 
 
 def generate_or_get_audio(text):
