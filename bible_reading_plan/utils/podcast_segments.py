@@ -18,6 +18,9 @@ class PodcastSegment:
     def is_built(self):
         return os.path.exists(self.file_path())
 
+    def title(self):
+        return None
+
     def duration(self):
         raise NotImplementedError
 
@@ -55,16 +58,23 @@ class BufferSegment(PodcastSegment):
 
 
 class GeneratedSpeechSegment(PodcastSegment):
-    def __init__(self, text):
+    def __init__(self, text, has_title=False):
         self.text = text
+        self.has_title = has_title
 
     def duration(self):
         self.build()
-        self._duration_from_file()
+        return self._duration_from_file()
 
     def file_path(self):
         text_hash = hashlib.sha256(self.text.encode("utf-8")).hexdigest()
         return f"build/gtts/{text_hash}.mp3"
+
+    def title(self):
+        if self.has_title:
+            return self.text
+
+        return None
 
     def _build(self):
         tts = gTTS(self.text, lang="en")
@@ -82,7 +92,7 @@ class ESVReadingSegment(PodcastSegment):
 
     def duration(self):
         self.build()
-        self._duration_from_file()
+        return self._duration_from_file()
 
     def file_path(self):
         filename = self.chapter.replace(" ", "_")

@@ -1,3 +1,4 @@
+from datetime import timedelta
 import os
 
 import ffmpeg
@@ -13,8 +14,28 @@ class PodcastEpisode:
         return f"Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}: {self.scheduled_reading.reading_nice_name()}"
 
     def description(self):
-        reading = self.scheduled_reading.scripture_reading.nice_name()
-        return f"Today's reading is {reading}"
+        def seconds_to_timestamp(total_seconds: int) -> str:
+            td = timedelta(seconds=int(total_seconds))
+            hrs, remainder = divmod(td.seconds, 3600)
+            mins, secs = divmod(remainder, 60)
+            if td.days or hrs:
+                return f"{td.days * 24 + hrs:02}:{mins:02}:{secs:02}"
+            return f"{mins}:{secs:02}"
+
+        return "\n".join(
+            f"{seconds_to_timestamp(start)} – {title}"
+            for start, title in self.chapter_start_times()
+        )
+
+    def chapter_start_times(self):
+        chapter_start_times = []
+        total_duration = 0
+        for segment in self.segments():
+            if segment.title():
+                chapter_start_times.append([total_duration, segment.title()])
+            total_duration += segment.duration()
+
+        return chapter_start_times
 
     def segments(self):
         intro_text = f"Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}. Today's reading is {self.scheduled_reading.scripture_reading.nice_name()}."
@@ -25,7 +46,7 @@ class PodcastEpisode:
 
         for chapter in self.scheduled_reading.scripture_reading.to_chapters():
             segments.append(buffer_segment)
-            segments.append(GeneratedSpeechSegment(chapter))
+            segments.append(GeneratedSpeechSegment(chapter, has_title=True))
             segments.append(buffer_segment)
             segments.append(ESVReadingSegment(chapter))
 
