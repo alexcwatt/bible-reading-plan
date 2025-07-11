@@ -17,10 +17,21 @@ SCHEDULED_READINGS = readings_with_dates(FIRST_MONDAY)
 
 
 def build_all_audio_files():
+    generated_count = 0
+    cached_count = 0
+    
     for scheduled_reading in SCHEDULED_READINGS:
         podcast_episode = PodcastEpisode(scheduled_reading)
-        podcast_episode.build()
-        print(".", end="", flush=True)
+        was_generated = podcast_episode.build()
+        
+        if was_generated:
+            print("*", end="", flush=True)
+            generated_count += 1
+        else:
+            print(".", end="", flush=True)
+            cached_count += 1
+    
+    print(f"\n\nBuild complete: {generated_count} generated, {cached_count} cached")
 
 
 def build_podcast_feed():

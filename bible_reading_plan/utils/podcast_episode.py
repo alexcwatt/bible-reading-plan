@@ -35,8 +35,9 @@ class PodcastEpisode:
         return f"build/readings/W{self.scheduled_reading.week:02d}_D{self.scheduled_reading.day:02d}.mp3"
 
     def build(self, force=False):
+        """Build the episode. Returns True if generated, False if cached."""
         if not force and os.path.exists(self.file_path()):
-            return
+            return False
 
         os.makedirs(os.path.dirname(self.file_path()), exist_ok=True)
 
@@ -46,3 +47,4 @@ class PodcastEpisode:
         input_files = [ffmpeg.input(segment.file_path()) for segment in self.segments()]
         output = ffmpeg.concat(*input_files, v=0, a=1).output(self.file_path())
         output.run(overwrite_output=True, quiet=True)
+        return True
