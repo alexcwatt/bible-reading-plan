@@ -6,8 +6,8 @@ import shutil
 from dotenv import load_dotenv
 from feedgen.feed import FeedGenerator
 
+from bible_reading_plan.utils.podcast_episode import PodcastEpisode
 from bible_reading_plan.utils.readings import readings_with_dates
-from bible_reading_plan.utils.esv_audio import build_reading_file, reading_file_path
 
 load_dotenv()
 
@@ -18,7 +18,8 @@ SCHEDULED_READINGS = readings_with_dates(FIRST_MONDAY)
 
 def build_all_audio_files():
     for scheduled_reading in SCHEDULED_READINGS:
-        build_reading_file(scheduled_reading)
+        podcast_episode = PodcastEpisode(scheduled_reading)
+        podcast_episode.build()
         print(".", end="", flush=True)
 
 
@@ -45,19 +46,16 @@ def build_podcast_feed():
         if scheduled_reading.due_date > datetime.now():
             break
 
-        reading = scheduled_reading.scripture_reading.nice_name()
+        episode = PodcastEpisode(scheduled_reading)
+
         due_date = scheduled_reading.due_date
         fe = fg.add_entry()
-        fe.title(
-            f"Week {scheduled_reading.week}, Day {scheduled_reading.day}: {scheduled_reading.reading_nice_name()}"
-        )
-        reading_local_path = reading_file_path(
-            scheduled_reading.week, scheduled_reading.day
-        )
+        fe.title(episode.title())
+        reading_local_path = episode.file_path()
         reading_filename = reading_local_path.split("/")[-1]
         url = f"https://storage.googleapis.com/{gcs_bucket}/readings/{reading_filename}"
         fe.enclosure(url, 0, "audio/mpeg")
-        fe.description("Today's reading is " + reading)
+        fe.description(episode.description())
         # We might not actually want UTC here
         due_date = due_date.replace(tzinfo=timezone.utc)
         fe.pubDate(due_date)
