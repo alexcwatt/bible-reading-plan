@@ -61,7 +61,7 @@ class TestGeneratedSpeechSegment:
         expected_hash = (
             "315f5bdb76d078c43b8ac0064e4a0164612b1fce77c869345bfc94c75894edd3"
         )
-        assert segment.file_path() == f"build/gtts/{expected_hash}.mp3"
+        assert segment.file_path() == f"build/tts/{expected_hash}.mp3"
 
     def test_different_text_different_paths(self):
         segment1 = GeneratedSpeechSegment("Hello")

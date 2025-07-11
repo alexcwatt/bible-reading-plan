@@ -1,7 +1,7 @@
 import hashlib
 import os
 
-from gtts import gTTS
+from google.cloud import texttospeech
 import ffmpeg
 import requests
 
@@ -61,11 +61,28 @@ class GeneratedSpeechSegment(PodcastSegment):
 
     def file_path(self):
         text_hash = hashlib.sha256(self.text.encode("utf-8")).hexdigest()
-        return f"build/gtts/{text_hash}.mp3"
+        return f"build/tts/{text_hash}.mp3"
 
     def _build(self):
-        tts = gTTS(self.text, lang="en")
-        tts.save(self.file_path())
+        client = texttospeech.TextToSpeechClient()
+
+        synthesis_input = texttospeech.SynthesisInput(text=self.text)
+        
+        voice = texttospeech.VoiceSelectionParams(
+            language_code="en-US",
+            ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+        )
+        
+        audio_config = texttospeech.AudioConfig(
+            audio_encoding=texttospeech.AudioEncoding.MP3
+        )
+
+        response = client.synthesize_speech(
+            input=synthesis_input, voice=voice, audio_config=audio_config
+        )
+
+        with open(self.file_path(), "wb") as out:
+            out.write(response.audio_content)
 
 
 class ESVReadingSegment(PodcastSegment):
