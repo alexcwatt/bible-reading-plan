@@ -46,9 +46,6 @@ class BufferSegment(PodcastSegment):
         return f"build/silence-{self.duration_ms}.mp3"
 
     def _build(self):
-        import pdb
-
-        pdb.set_trace()
         ffmpeg.input("anullsrc=r=44100:cl=mono", f="lavfi", t=self.duration()).output(
             self.file_path()
         ).run(overwrite_output=True, quiet=True)
@@ -60,7 +57,7 @@ class GeneratedSpeechSegment(PodcastSegment):
 
     def duration(self):
         self.build()
-        self._duration_from_file()
+        return self._duration_from_file()
 
     def file_path(self):
         text_hash = hashlib.sha256(self.text.encode("utf-8")).hexdigest()
@@ -82,7 +79,7 @@ class ESVReadingSegment(PodcastSegment):
 
     def duration(self):
         self.build()
-        self._duration_from_file()
+        return self._duration_from_file()
 
     def file_path(self):
         filename = self.chapter.replace(" ", "_")

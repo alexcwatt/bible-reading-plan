@@ -45,4 +45,4 @@ class PodcastEpisode:
             segment.build()
         input_files = [ffmpeg.input(segment.file_path()) for segment in self.segments()]
         output = ffmpeg.concat(*input_files, v=0, a=1).output(self.file_path())
-        output.run(overwrite_output=True)  # quiet=True)
+        output.run(overwrite_output=True, quiet=True)
