@@ -86,6 +86,38 @@ class ScriptureReading:
         return book_part.strip(), chapter_part.strip()
 
 
+# So far, the program is structured with two main paths:
+# 1. Build up the audio files as its own thing - intro text, pauses in between, etc.
+# 2. Build the podcast XML itself which links to the right audio files
+
+# I want to have a feature where I know the timestamps of the audio file parts
+# This means we need to generate some metadata when building the audio files
+# Maybe we can save this in a file too - a text file that knows that stuff?
+
+# However, so far, the things have been nicely decoupled. I can run the audio generation
+# locally and have my GitHub Action just run the podcast builder part...
+
+# Maybe I will change it to be a little bit different. There are two steps:
+# 1. Build up audio files and the podcast descriptions - all of the precomputed stuff
+# 2. Build the podcast feed in the moment, by leveraging all the prebuilt done-once stuff
+
+# Over time, I will probably evolve the podcast feed and tweak the audio files etc.
+# Maybe I should change things a bit so that the system for building the podcast is append-only,
+# adding new episodes, and at some point pruning old ones...
+
+# Another idea is that I can store some metadata from the build process and check it into the repo
+# That metadata would include, how long is each reading audio file...
+
+
+# OK, we should have some data structure for the audio file / podcast episode builder
+# It should look like this
+
+# PodcastEpisode
+# That will have an array of segments/chapters
+# Each chapter will have a duration
+# We will use this to (1) compile the final audio file and (2) generate the notes for the episode
+
+
 class ScheduledReading:
     """
     Represents a scheduled reading with metadata such as due date, week, and day.
@@ -108,6 +140,8 @@ class ScheduledReading:
         Returns a human-readable name for the reading.
         """
         return self.scripture_reading.nice_name()
+
+    # We should have a method in here for the intro
 
 
 def readings():

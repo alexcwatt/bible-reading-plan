@@ -11,6 +11,8 @@ from bible_reading_plan.utils.readings import readings_with_dates
 
 load_dotenv()
 
+# I should evolve this so it works when the year changes
+
 FIRST_MONDAY_STRING = "2024-12-30"
 FIRST_MONDAY = datetime.strptime(FIRST_MONDAY_STRING, "%Y-%m-%d")
 SCHEDULED_READINGS = readings_with_dates(FIRST_MONDAY)
@@ -59,6 +61,7 @@ def build_podcast_feed():
         # We might not actually want UTC here
         due_date = due_date.replace(tzinfo=timezone.utc)
         fe.pubDate(due_date)
+        # We may want a different ID, since it is possible that episodes will be re-published
         fe.id(url)
         print(".", end="", flush=True)
 
