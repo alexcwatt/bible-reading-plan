@@ -33,3 +33,7 @@ I'm not sure that this code is useful to others, but the entrypoint is `podcast-
 Changes to finish what I'm doing right now:
 * Let's make it say "Psalm 100" not "Psalm chapter 100"
 * Let's make it reuse existing code for packaging bible passages instead of having to re-parse them
+
+TODO
+* Listen to all the reading intros
+* Make sure spacing is fixed
