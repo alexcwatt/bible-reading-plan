@@ -12,7 +12,7 @@ python = "^3.13"
 todoist-api-python = ">=2.0,<3.0"
 requests = "^2.32.3"
 ffmpeg-python = "^0.2.0"
-gtts = "^2.5.4"
+google-cloud-texttospeech = "^2.21.0"
 dotenv = "^0.9.9"
 feedgen = "^1.0.0"
 

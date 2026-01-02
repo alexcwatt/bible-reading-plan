@@ -61,7 +61,7 @@ class TestGeneratedSpeechSegment:
         expected_hash = (
             "315f5bdb76d078c43b8ac0064e4a0164612b1fce77c869345bfc94c75894edd3"
         )
-        assert segment.file_path() == f"build/gtts/{expected_hash}.mp3"
+        assert segment.file_path() == f"build/tts/{expected_hash}.mp3"
 
     def test_different_text_different_paths(self):
         segment1 = GeneratedSpeechSegment("Hello")
@@ -80,6 +80,49 @@ class TestGeneratedSpeechSegment:
         assert result == 2.5
         mock_build.assert_called_once()
         mock_duration_from_file.assert_called_once()
+
+    def test_build_with_plain_text(self):
+        """Test that plain text uses SynthesisInput.text"""
+        with mock.patch('bible_reading_plan.utils.podcast_segments.texttospeech.TextToSpeechClient') as mock_tts_client, \
+             mock.patch('builtins.open', mock.mock_open()), \
+             mock.patch('os.makedirs'):
+            
+            mock_client = mock.Mock()
+            mock_tts_client.return_value = mock_client
+            mock_response = mock.Mock()
+            mock_response.audio_content = b"fake audio"
+            mock_client.synthesize_speech.return_value = mock_response
+
+            segment = GeneratedSpeechSegment("Hello world")
+            segment._build()
+
+            # Verify SynthesisInput was created with text parameter
+            call_args = mock_client.synthesize_speech.call_args[1]
+            synthesis_input = call_args['input']
+            assert hasattr(synthesis_input, 'text')
+            assert synthesis_input.text == "Hello world"
+
+    def test_build_with_ssml(self):
+        """Test that SSML text uses SynthesisInput.ssml"""
+        with mock.patch('bible_reading_plan.utils.podcast_segments.texttospeech.TextToSpeechClient') as mock_tts_client, \
+             mock.patch('builtins.open', mock.mock_open()), \
+             mock.patch('os.makedirs'):
+            
+            mock_client = mock.Mock()
+            mock_tts_client.return_value = mock_client
+            mock_response = mock.Mock()
+            mock_response.audio_content = b"fake audio"
+            mock_client.synthesize_speech.return_value = mock_response
+
+            ssml_text = '<speak><phoneme alphabet="ipa" ph="dʒoʊb">Job</phoneme> chapter 30</speak>'
+            segment = GeneratedSpeechSegment(ssml_text)
+            segment._build()
+
+            # Verify SynthesisInput was created with ssml parameter
+            call_args = mock_client.synthesize_speech.call_args[1]
+            synthesis_input = call_args['input']
+            assert hasattr(synthesis_input, 'ssml')
+            assert synthesis_input.ssml == ssml_text
 
 
 class TestESVReadingSegment:

@@ -1,4 +1,4 @@
-from bible_reading_plan.utils.readings import ScriptureReading
+from bible_reading_plan.utils.readings import ScriptureReading, apply_psalm_ssml
 
 
 def test_reading_to_chapters():
@@ -55,3 +55,33 @@ def test_reading_nice_name_for_single_chapter_books():
     reading = ScriptureReading("Zechariah 12-14; Psalm 94; 2 John")
     expected = "Zechariah 12-14; Psalm 94; and 2 John"
     assert reading.nice_name() == expected
+
+
+def test_apply_psalm_ssml_basic():
+    """Test basic Psalm number formatting."""
+    result = apply_psalm_ssml("Psalm 104")
+    assert result == 'Psalm <say-as interpret-as="cardinal">104</say-as>'
+
+
+def test_apply_psalm_ssml_removes_chapter():
+    """Test that 'chapter' is removed from Psalm references."""
+    result = apply_psalm_ssml("Psalm chapter 104")
+    assert result == 'Psalm <say-as interpret-as="cardinal">104</say-as>'
+
+
+def test_apply_psalm_ssml_non_psalm_unchanged():
+    """Test that non-Psalm books are unchanged."""
+    result = apply_psalm_ssml("Genesis chapter 1")
+    assert result == "Genesis chapter 1"
+
+
+def test_apply_psalm_ssml_range():
+    """Test Psalm range formatting."""
+    result = apply_psalm_ssml("Psalms 1-2")
+    assert result == 'Psalms <say-as interpret-as="cardinal">1</say-as>-<say-as interpret-as="cardinal">2</say-as>'
+
+
+def test_apply_psalm_ssml_in_mixed_reading():
+    """Test Psalm formatting within a mixed reading string."""
+    result = apply_psalm_ssml("Genesis 1-3; Psalm 104; and Mark 1")
+    assert result == 'Genesis 1-3; Psalm <say-as interpret-as="cardinal">104</say-as>; and Mark 1'

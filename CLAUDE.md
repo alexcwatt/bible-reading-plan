@@ -47,7 +47,7 @@ Recent refactoring introduced a modular segment-based approach:
 
 **Segment Types** (`utils/podcast_segments.py`):
 - **`PodcastSegment`**: Abstract base class with build/duration/file_path interface
-- **`GeneratedSpeechSegment`**: Google TTS for announcements (cached by text hash)
+- **`GeneratedSpeechSegment`**: Google Cloud Text-to-Speech for announcements (cached by text hash)
 - **`ESVReadingSegment`**: Downloads audio from ESV API (cached by chapter)
 - **`BufferSegment`**: Generates silence for pauses between segments
 
@@ -64,12 +64,14 @@ Recent refactoring introduced a modular segment-based approach:
 ### Required for Podcast Generation
 - `ESV_API_KEY`: ESV API key for downloading Bible audio
 - `GCS_BUCKET`: Google Cloud Storage bucket for hosting podcast files
+- Google Cloud authentication: Set up Application Default Credentials for Text-to-Speech API access (see https://cloud.google.com/docs/authentication/external/set-up-adc)
+- `GOOGLE_CLOUD_QUOTA_PROJECT`: The project used for the Text-to-Speech API
 
 ## Build Artifacts
 
 The project creates files in `build/` directory:
 - `build/readings/`: Final podcast episode MP3s (W01_D01.mp3 format)
-- `build/gtts/`: Cached Google TTS files (named by text hash)
+- `build/tts/`: Cached Google Cloud TTS files (named by text hash)
 - `build/esv_chapters/`: Cached ESV audio files (named by chapter)
 - `build/silence-{duration}.mp3`: Generated silence files for various durations
 
@@ -78,7 +80,7 @@ The project creates files in `build/` directory:
 Key external dependencies:
 - `todoist-api-python`: Todoist API client
 - `ffmpeg-python`: Audio processing and concatenation
-- `gtts`: Google Text-to-Speech
+- `google-cloud-texttospeech`: Google Cloud Text-to-Speech
 - `requests`: ESV API calls
 - `feedgen`: RSS feed generation for podcast
 
