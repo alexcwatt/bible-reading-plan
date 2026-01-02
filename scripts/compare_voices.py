@@ -13,7 +13,12 @@ from bible_reading_plan.utils.podcast_episode import _create_chapter_announcemen
 
 VOICES_TO_TEST = [
     ("chirp3-charon", "en-US-Chirp3-HD-Charon"),
+    ("chirp3-gacrux", "en-US-Chirp3-HD-Gacrux"),
+    ("chirp3-schedar", "en-US-Chirp3-HD-Schedar"),
+    ("chirp3-alnilam", "en-US-Chirp3-HD-Alnilam"),
+    ("neural2-a", "en-US-Neural2-A"),
     ("neural2-d", "en-US-Neural2-D"),
+    ("neural2-j", "en-US-Neural2-J"),
     ("studio-q", "en-US-Studio-Q"),
 ]
 
