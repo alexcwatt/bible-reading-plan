@@ -16,22 +16,25 @@ FIRST_MONDAY = datetime.strptime(FIRST_MONDAY_STRING, "%Y-%m-%d")
 SCHEDULED_READINGS = readings_with_dates(FIRST_MONDAY)
 
 
-def build_all_audio_files():
+def build_audio_files(count=None, force=False):
     generated_count = 0
     cached_count = 0
-    
-    for scheduled_reading in SCHEDULED_READINGS:
+
+    readings_to_build = SCHEDULED_READINGS[:count] if count else SCHEDULED_READINGS
+
+    for scheduled_reading in readings_to_build:
         podcast_episode = PodcastEpisode(scheduled_reading)
-        was_generated = podcast_episode.build()
-        
+        was_generated = podcast_episode.build(force=force)
+
         if was_generated:
             print("*", end="", flush=True)
             generated_count += 1
         else:
             print(".", end="", flush=True)
             cached_count += 1
-    
-    print(f"\n\nBuild complete: {generated_count} generated, {cached_count} cached")
+
+    total = len(readings_to_build)
+    print(f"\n\nBuild complete: {generated_count} generated, {cached_count} cached (total: {total})")
 
 
 def build_podcast_feed():
@@ -90,6 +93,17 @@ def main():
     parser_audio = subparsers.add_parser(
         "build-audio", help="Build all audio files for the Bible readings."
     )
+    parser_audio.add_argument(
+        "-n", "--count",
+        type=int,
+        metavar="N",
+        help="Number of episodes to build (default: all)"
+    )
+    parser_audio.add_argument(
+        "-f", "--force",
+        action="store_true",
+        help="Force regeneration of episodes even if they already exist"
+    )
 
     # Subcommand for building the podcast feed
     parser_feed = subparsers.add_parser(
@@ -99,6 +113,6 @@ def main():
     args = parser.parse_args()
 
     if args.command == "build-audio":
-        build_all_audio_files()
+        build_audio_files(count=args.count, force=args.force)
     elif args.command == "build-feed":
         build_podcast_feed()
