@@ -4,6 +4,11 @@ import ffmpeg
 
 from .podcast_segments import BufferSegment, ESVReadingSegment, GeneratedSpeechSegment
 
+# Book names that need pronunciation clarification
+PRONUNCIATION_MAP = {
+    "Job": '<phoneme alphabet="ipa" ph="dʒoʊb">Job</phoneme>',
+}
+
 
 def _create_chapter_announcement_text(chapter_str):
     """
@@ -12,29 +17,20 @@ def _create_chapter_announcement_text(chapter_str):
     """
     from .readings import ScriptureReading
 
-    # Book names that need pronunciation clarification
-    PRONUNCIATION_MAP = {
-        "Job": '<phoneme alphabet="ipa" ph="dʒoʊb">Job</phoneme>',
-        "Mark": '<phoneme alphabet="ipa" ph="mɑːrk">Mark</phoneme>',
-        "Acts": '<phoneme alphabet="ipa" ph="ækts">Acts</phoneme>',
-        "Numbers": '<phoneme alphabet="ipa" ph="ˈnʌmbərz">Numbers</phoneme>',
-        "Judges": '<phoneme alphabet="ipa" ph="ˈdʒʌdʒəz">Judges</phoneme>',
-    }
-
     # Reuse existing parsing logic
     reading = ScriptureReading("")
     book_part, chapter_part = reading._book_and_chapter_parts(chapter_str)
 
     # Apply pronunciation correction
-    book_text = PRONUNCIATION_MAP.get(book_part, book_part)
+    book_name = PRONUNCIATION_MAP.get(book_part, book_part)
 
     if chapter_part:
         if book_part in ["Psalm", "Psalms"]:
-            announcement_text = f'{book_text} <say-as interpret-as="cardinal">{chapter_part}</say-as>'
+            announcement_text = f'{book_name} <say-as interpret-as="cardinal">{chapter_part}</say-as>'
         else:
-            announcement_text = f"{book_text} chapter {chapter_part}"
+            announcement_text = f"{book_name} chapter {chapter_part}"
     else:
-        announcement_text = book_text
+        announcement_text = book_name
 
     return f"<speak>{announcement_text}</speak>"
 
