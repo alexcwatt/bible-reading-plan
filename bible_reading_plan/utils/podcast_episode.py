@@ -30,7 +30,7 @@ def _create_chapter_announcement_text(chapter_str):
 
     if chapter_part:
         if book_part in ["Psalm", "Psalms"]:
-            announcement_text = f"{book_text} {chapter_part}"
+            announcement_text = f'{book_text} <say-as interpret-as="cardinal">{chapter_part}</say-as>'
         else:
             announcement_text = f"{book_text} chapter {chapter_part}"
     else:
@@ -51,7 +51,8 @@ class PodcastEpisode:
         return f"Today's reading is {reading}"
 
     def segments(self):
-        intro_text = f"Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}. Today's reading is {self.scheduled_reading.scripture_reading.nice_name()}."
+        reading_ssml = self.scheduled_reading.scripture_reading.nice_name_ssml(wrap_speak=False)
+        intro_text = f"<speak>Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}. Today's reading is {reading_ssml}.</speak>"
         intro_segment = GeneratedSpeechSegment(intro_text)
         segments = [intro_segment]
 

@@ -69,6 +69,26 @@ class ScriptureReading:
         else:
             return "; ".join(output[:-1]) + "; and " + output[-1]
 
+    def nice_name_ssml(self, wrap_speak=True):
+        """
+        Returns an SSML-formatted version of the reading with proper Psalm number handling.
+        If wrap_speak is False, returns just the inner content without <speak> tags.
+        """
+        import re
+
+        nice = self.nice_name()
+
+        def replace_psalm(match):
+            psalm_word = match.group(1)
+            number = match.group(2)
+            return f'{psalm_word} <say-as interpret-as="cardinal">{number}</say-as>'
+
+        formatted = re.sub(r'\b(Psalms?)\s+(\d+)', replace_psalm, nice)
+
+        if wrap_speak:
+            return f"<speak>{formatted}</speak>"
+        return formatted
+
     def _book_and_chapter_parts(self, passage):
         """
         Splits the passage into book and chapter parts.
