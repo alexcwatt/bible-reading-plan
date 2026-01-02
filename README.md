@@ -29,11 +29,3 @@ You'll need Python installed to use this tool.
 I'm experimenting with building a podcast so I can listen to the reading on days when I can't sit down and read it. The podcast uses the ESV API to pull the MP3 files for each chapter, as well as a Google API to generate other podcast audio (e.g., "Today's reading is Genesis 1-2, Psalm 19, and Mark 1").
 
 I'm not sure that this code is useful to others, but the entrypoint is `podcast-bible-plan`.
-
-Changes to finish what I'm doing right now:
-* Let's make it say "Psalm 100" not "Psalm chapter 100"
-* Let's make it reuse existing code for packaging bible passages instead of having to re-parse them
-
-TODO
-* Listen to all the reading intros
-* Make sure spacing is fixed
