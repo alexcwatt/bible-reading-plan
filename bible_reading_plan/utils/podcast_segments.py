@@ -27,6 +27,10 @@ class PodcastSegment:
     def _build(self):
         raise NotImplementedError
 
+    def title(self):
+        """Return the title for this segment, or None if untitled."""
+        return None
+
     def _duration_from_file(self):
         metadata = ffmpeg.probe(self.file_path())
         return round(float(metadata["format"]["duration"]), 1)
@@ -52,8 +56,12 @@ class BufferSegment(PodcastSegment):
 
 
 class GeneratedSpeechSegment(PodcastSegment):
-    def __init__(self, text):
+    def __init__(self, text, title=None):
         self.text = text
+        self._title = title
+
+    def title(self):
+        return self._title
 
     def duration(self):
         self.build()
@@ -94,8 +102,12 @@ class ESVReadingSegment(PodcastSegment):
         Custom exception for download errors.
         """
 
-    def __init__(self, chapter):
+    def __init__(self, chapter, title=None):
         self.chapter = chapter
+        self._title = title
+
+    def title(self):
+        return self._title
 
     def duration(self):
         self.build()

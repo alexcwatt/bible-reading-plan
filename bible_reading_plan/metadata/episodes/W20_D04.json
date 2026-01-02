@@ -1,0 +1,30 @@
+{
+  "title": "Week 20, Day 4: 2 Samuel 9-10; 1 Chronicles 18-19; Psalm 89; and Acts 26",
+  "description": "0:12 \u2013 2 Samuel 9\n2:28 \u2013 2 Samuel 10\n5:33 \u2013 1 Chronicles 18\n8:07 \u2013 1 Chronicles 19\n11:24 \u2013 Psalm 89\n17:05 \u2013 Acts 26",
+  "chapter_start_times": [
+    [
+      12.5,
+      "2 Samuel 9"
+    ],
+    [
+      148.9,
+      "2 Samuel 10"
+    ],
+    [
+      333.0,
+      "1 Chronicles 18"
+    ],
+    [
+      487.5,
+      "1 Chronicles 19"
+    ],
+    [
+      684.5,
+      "Psalm 89"
+    ],
+    [
+      1025.9,
+      "Acts 26"
+    ]
+  ]
+}

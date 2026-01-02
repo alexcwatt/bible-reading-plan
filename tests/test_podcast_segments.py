@@ -25,6 +25,10 @@ class TestPodcastSegment:
         with pytest.raises(NotImplementedError):
             segment._build()
 
+    def test_title_returns_none_by_default(self):
+        segment = PodcastSegment()
+        assert segment.title() is None
+
 
 class TestBufferSegment:
     def test_init_validates_duration_type(self):
@@ -54,6 +58,10 @@ class TestBufferSegment:
         segment = BufferSegment(999999)  # Use unlikely duration to avoid existing file
         assert not segment.is_built()
 
+    def test_title_returns_none(self):
+        segment = BufferSegment(1000)
+        assert segment.title() is None
+
 
 class TestGeneratedSpeechSegment:
     def test_file_path_uses_text_hash(self):
@@ -71,6 +79,14 @@ class TestGeneratedSpeechSegment:
     def test_is_built(self):
         segment = GeneratedSpeechSegment("Test text")
         assert not segment.is_built()
+
+    def test_title_returns_none_by_default(self):
+        segment = GeneratedSpeechSegment("Test text")
+        assert segment.title() is None
+
+    def test_title_returns_value_when_set(self):
+        segment = GeneratedSpeechSegment("SSML content", title="Genesis 1")
+        assert segment.title() == "Genesis 1"
 
     @mock.patch.object(GeneratedSpeechSegment, '_duration_from_file', return_value=2.5)
     @mock.patch.object(GeneratedSpeechSegment, 'build')
@@ -136,6 +152,14 @@ class TestESVReadingSegment:
     def test_is_built(self):
         segment = ESVReadingSegment("NonExistent 999")  # Use unlikely chapter name
         assert not segment.is_built()
+
+    def test_title_returns_none_by_default(self):
+        segment = ESVReadingSegment("Genesis 1")
+        assert segment.title() is None
+
+    def test_title_returns_value_when_set(self):
+        segment = ESVReadingSegment("Genesis 1", title="Genesis 1")
+        assert segment.title() == "Genesis 1"
 
     def test_build_missing_api_key(self):
         segment = ESVReadingSegment("Genesis 1")
