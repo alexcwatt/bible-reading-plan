@@ -66,16 +66,17 @@ class GeneratedSpeechSegment(PodcastSegment):
     def _build(self):
         client = texttospeech.TextToSpeechClient()
 
+        # Check if text is SSML (starts with <speak>) or plain text
         if self.text.strip().startswith('<speak>'):
             synthesis_input = texttospeech.SynthesisInput(ssml=self.text)
         else:
             synthesis_input = texttospeech.SynthesisInput(text=self.text)
-
+        
         voice = texttospeech.VoiceSelectionParams(
             language_code="en-US",
-            name="en-US-Studio-Q"
+            ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
         )
-
+        
         audio_config = texttospeech.AudioConfig(
             audio_encoding=texttospeech.AudioEncoding.MP3
         )
