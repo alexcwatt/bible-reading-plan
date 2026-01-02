@@ -29,7 +29,10 @@ def _create_chapter_announcement_text(chapter_str):
     book_text = PRONUNCIATION_MAP.get(book_part, book_part)
 
     if chapter_part:
-        announcement_text = f"{book_text} chapter {chapter_part}"
+        if book_part in ["Psalm", "Psalms"]:
+            announcement_text = f"{book_text} {chapter_part}"
+        else:
+            announcement_text = f"{book_text} chapter {chapter_part}"
     else:
         announcement_text = book_text
 

@@ -61,4 +61,4 @@ def test_create_chapter_announcement_text_multi_word_book():
 def test_create_chapter_announcement_text_psalm():
     """Test Psalm formatting."""
     result = _create_chapter_announcement_text("Psalm 104")
-    assert result == "<speak>Psalm chapter 104</speak>"
+    assert result == "<speak>Psalm 104</speak>"
