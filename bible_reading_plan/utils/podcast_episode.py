@@ -15,7 +15,7 @@ def _create_chapter_announcement_text(chapter_str):
     Transform chapter string to announcement format with SSML pronunciation.
     Uses existing ScriptureReading parsing logic to avoid duplication.
     """
-    from .readings import ScriptureReading
+    from .readings import ScriptureReading, apply_psalm_ssml
 
     # Reuse existing parsing logic
     reading = ScriptureReading("")
@@ -24,13 +24,14 @@ def _create_chapter_announcement_text(chapter_str):
     # Apply pronunciation correction
     book_name = PRONUNCIATION_MAP.get(book_part, book_part)
 
+    # Build announcement
     if chapter_part:
-        if book_part in ["Psalm", "Psalms"]:
-            announcement_text = f'{book_name} <say-as interpret-as="cardinal">{chapter_part}</say-as>'
-        else:
-            announcement_text = f"{book_name} chapter {chapter_part}"
+        announcement_text = f"{book_name} chapter {chapter_part}"
     else:
         announcement_text = book_name
+
+    # Apply Psalm-specific SSML formatting (removes "chapter", adds cardinal)
+    announcement_text = apply_psalm_ssml(announcement_text)
 
     return f"<speak>{announcement_text}</speak>"
 

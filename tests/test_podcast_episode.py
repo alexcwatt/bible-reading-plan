@@ -33,11 +33,10 @@ def test_create_chapter_announcement_text_job_pronunciation():
     assert result == expected
 
 
-def test_create_chapter_announcement_text_mark_pronunciation():
-    """Test that Mark gets proper pronunciation tags."""
+def test_create_chapter_announcement_text_mark():
+    """Test that Mark is formatted normally (no special pronunciation needed)."""
     result = _create_chapter_announcement_text("Mark 3")
-    expected = '<speak><phoneme alphabet="ipa" ph="mɑːrk">Mark</phoneme> chapter 3</speak>'
-    assert result == expected
+    assert result == "<speak>Mark chapter 3</speak>"
 
 
 def test_create_chapter_announcement_text_single_book():

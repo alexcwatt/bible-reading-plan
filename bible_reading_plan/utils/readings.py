@@ -7,6 +7,32 @@ WEEKS_IN_YEAR = 52
 READINGS_PER_WEEK = 5
 
 
+def apply_psalm_ssml(text):
+    """
+    Applies Psalm-specific formatting for SSML:
+    - Removes 'chapter' word (Psalms don't use it)
+    - Wraps numbers in cardinal SSML for proper pronunciation
+
+    Transforms "Psalm chapter 104" or "Psalm 104" to
+    'Psalm <say-as interpret-as="cardinal">104</say-as>'.
+
+    Also handles ranges like "Psalms 1-2".
+    """
+    def replace_psalm(match):
+        psalm_word = match.group(1)
+        first_number = match.group(2)
+        second_number = match.group(3)
+        result = f'{psalm_word} <say-as interpret-as="cardinal">{first_number}</say-as>'
+        if second_number:
+            result += f'-<say-as interpret-as="cardinal">{second_number}</say-as>'
+        return result
+
+    # Remove "chapter" from Psalm references (Psalms don't use it)
+    text = re.sub(r'\b(Psalms?)\s+chapter\s+', r'\1 ', text)
+    # Apply cardinal SSML for Psalm numbers (including ranges)
+    return re.sub(r'\b(Psalms?)\s+(\d+)(?:-(\d+))?', replace_psalm, text)
+
+
 class ScriptureReading:
     """
     Represents the raw Bible reading string and provides methods for processing it.
@@ -74,16 +100,7 @@ class ScriptureReading:
         Returns an SSML-formatted version of the reading with proper Psalm number handling.
         If wrap_speak is False, returns just the inner content without <speak> tags.
         """
-        import re
-
-        nice = self.nice_name()
-
-        def replace_psalm(match):
-            psalm_word = match.group(1)
-            number = match.group(2)
-            return f'{psalm_word} <say-as interpret-as="cardinal">{number}</say-as>'
-
-        formatted = re.sub(r'\b(Psalms?)\s+(\d+)', replace_psalm, nice)
+        formatted = apply_psalm_ssml(self.nice_name())
 
         if wrap_speak:
             return f"<speak>{formatted}</speak>"
