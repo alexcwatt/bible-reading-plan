@@ -73,13 +73,27 @@ class PodcastEpisode:
         return f"build/readings/W{self.scheduled_reading.week:02d}_D{self.scheduled_reading.day:02d}.mp3"
 
     def _convert_segments_to_wav(self, segments, temp_dir):
+        import hashlib
+
+        wav_cache_dir = "build/wav_cache"
+        os.makedirs(wav_cache_dir, exist_ok=True)
+
         wav_files = []
-        for i, segment in enumerate(segments):
-            wav_file = os.path.join(temp_dir, f".temp_{i:03d}.wav")
-            wav_files.append(wav_file)
-            ffmpeg.input(segment.file_path()).output(
-                wav_file, acodec="pcm_s16le", ar="44100", ac=1
-            ).run(overwrite_output=True, quiet=True)
+        for segment in segments:
+            mp3_path = segment.file_path()
+
+            with open(mp3_path, "rb") as f:
+                mp3_hash = hashlib.md5(f.read()).hexdigest()
+
+            cached_wav = os.path.join(wav_cache_dir, f"{mp3_hash}.wav")
+
+            if not os.path.exists(cached_wav):
+                ffmpeg.input(mp3_path).output(
+                    cached_wav, acodec="pcm_s16le", ar="44100", ac=1
+                ).run(overwrite_output=True, quiet=True)
+
+            wav_files.append(cached_wav)
+
         return wav_files
 
     def _create_concat_file(self, wav_files, concat_file):
@@ -93,9 +107,6 @@ class PodcastEpisode:
         ).run(overwrite_output=True, quiet=True)
 
     def _cleanup_temp_files(self, wav_files, concat_file):
-        for wav_file in wav_files:
-            if os.path.exists(wav_file):
-                os.remove(wav_file)
         if os.path.exists(concat_file):
             os.remove(concat_file)
 

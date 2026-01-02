@@ -73,18 +73,28 @@ def build_sample_with_voice(voice_label, voice_name):
         else:
             segment.build(force=False)
 
-    temp_dir = os.path.dirname(output_file)
     concat_file = output_file + ".concat.txt"
     wav_files = []
 
     try:
-        for i, segment in enumerate(segments):
-            wav_file = os.path.join(temp_dir, f".temp_voice_{voice_label}_{i:03d}.wav")
-            wav_files.append(wav_file)
+        import hashlib
+        wav_cache_dir = "build/wav_cache"
+        os.makedirs(wav_cache_dir, exist_ok=True)
 
-            ffmpeg.input(segment.file_path()).output(
-                wav_file, acodec="pcm_s16le", ar="44100", ac=1
-            ).run(overwrite_output=True, quiet=True)
+        for segment in segments:
+            mp3_path = segment.file_path()
+
+            with open(mp3_path, "rb") as f:
+                mp3_hash = hashlib.md5(f.read()).hexdigest()
+
+            cached_wav = os.path.join(wav_cache_dir, f"{mp3_hash}.wav")
+
+            if not os.path.exists(cached_wav):
+                ffmpeg.input(mp3_path).output(
+                    cached_wav, acodec="pcm_s16le", ar="44100", ac=1
+                ).run(overwrite_output=True, quiet=True)
+
+            wav_files.append(cached_wav)
 
         with open(concat_file, "w") as f:
             for wav_file in wav_files:
@@ -95,26 +105,37 @@ def build_sample_with_voice(voice_label, voice_name):
         ).run(overwrite_output=True, quiet=True)
 
     finally:
-        for wav_file in wav_files:
-            if os.path.exists(wav_file):
-                os.remove(wav_file)
         if os.path.exists(concat_file):
             os.remove(concat_file)
 
     print(f"Generated: {output_file}")
 
 if __name__ == "__main__":
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
     print(f"Generating samples: announcement + {CHAPTER} ESV audio")
+    print(f"Processing {len(VOICES_TO_TEST)} voices in parallel...")
     print()
 
-    for voice_label, voice_name in VOICES_TO_TEST:
-        print(f"{voice_label:15s} ({voice_name})")
+    def build_with_status(voice_tuple):
+        voice_label, voice_name = voice_tuple
         try:
             build_sample_with_voice(voice_label, voice_name)
+            return voice_label, voice_name, None
         except Exception as e:
-            print(f"  ERROR: {e}")
             import traceback
-            traceback.print_exc()
+            return voice_label, voice_name, traceback.format_exc()
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = {executor.submit(build_with_status, voice): voice for voice in VOICES_TO_TEST}
+
+        for future in as_completed(futures):
+            voice_label, voice_name, error = future.result()
+            if error:
+                print(f"{voice_label:15s} ({voice_name}) - ERROR")
+                print(error)
+            else:
+                print(f"{voice_label:15s} ({voice_name}) - DONE")
 
     print()
     print("All samples generated in build/voice_samples/")
