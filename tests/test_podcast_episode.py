@@ -47,7 +47,7 @@ def test_podcast_episode_description():
 
     with mock.patch.object(episode, 'segments', return_value=mock_segments):
         description = episode.description()
-        lines = description.split('\n')
+        lines = description.split('<br>')
         assert len(lines) == 2
         # Genesis 6 starts at: 5 (intro) + 1 (buffer) = 6 seconds
         assert lines[0] == "0:06 – Genesis 6"

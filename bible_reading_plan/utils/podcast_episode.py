@@ -46,7 +46,7 @@ class PodcastEpisode:
         return f"Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}: {self.scheduled_reading.reading_nice_name()}"
 
     def description(self):
-        return "\n".join(
+        return "<br>".join(
             f"{self._seconds_to_timestamp(start)} – {title}"
             for start, title in self.chapter_start_times()
         )
