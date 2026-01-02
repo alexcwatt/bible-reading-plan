@@ -69,7 +69,7 @@ def build_podcast_feed():
         reading_filename = reading_local_path.split("/")[-1]
         url = f"https://storage.googleapis.com/{gcs_bucket}/readings/{reading_filename}"
         fe.enclosure(url, 0, "audio/mpeg")
-        fe.description(episode.description())
+        fe.description(episode.get_description())
         # We might not actually want UTC here
         due_date = due_date.replace(tzinfo=timezone.utc)
         fe.pubDate(due_date)

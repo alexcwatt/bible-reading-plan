@@ -1,0 +1,30 @@
+{
+  "title": "Week 22, Day 1: 1 Chronicles 22-25; Psalm 78; and Romans 5",
+  "description": "0:10 \u2013 1 Chronicles 22<br>3:28 \u2013 1 Chronicles 23<br>7:25 \u2013 1 Chronicles 24<br>10:56 \u2013 1 Chronicles 25<br>14:28 \u2013 Psalm 78<br>21:41 \u2013 Romans 5",
+  "chapter_start_times": [
+    [
+      10.5,
+      "1 Chronicles 22"
+    ],
+    [
+      208.2,
+      "1 Chronicles 23"
+    ],
+    [
+      445.8,
+      "1 Chronicles 24"
+    ],
+    [
+      656.4,
+      "1 Chronicles 25"
+    ],
+    [
+      868.1,
+      "Psalm 78"
+    ],
+    [
+      1301.8,
+      "Romans 5"
+    ]
+  ]
+}

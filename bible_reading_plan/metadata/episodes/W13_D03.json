@@ -1,0 +1,30 @@
+{
+  "title": "Week 13, Day 3: Joshua 1-4; Psalm 143; and Luke 14",
+  "description": "0:10 \u2013 Joshua 1<br>3:12 \u2013 Joshua 2<br>6:47 \u2013 Joshua 3<br>9:34 \u2013 Joshua 4<br>12:59 \u2013 Psalm 143<br>14:40 \u2013 Luke 14",
+  "chapter_start_times": [
+    [
+      10.0,
+      "Joshua 1"
+    ],
+    [
+      192.5,
+      "Joshua 2"
+    ],
+    [
+      407.4,
+      "Joshua 3"
+    ],
+    [
+      574.8,
+      "Joshua 4"
+    ],
+    [
+      779.5,
+      "Psalm 143"
+    ],
+    [
+      880.1,
+      "Luke 14"
+    ]
+  ]
+}

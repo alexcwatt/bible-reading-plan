@@ -1,0 +1,34 @@
+{
+  "title": "Week 42, Day 1: Lamentations 1-5; Psalm 137; and 1 Peter 4",
+  "description": "0:12 \u2013 Lamentations 1<br>4:54 \u2013 Lamentations 2<br>9:43 \u2013 Lamentations 3<br>14:50 \u2013 Lamentations 4<br>18:22 \u2013 Lamentations 5<br>20:22 \u2013 Psalm 137<br>21:28 \u2013 1 Peter 4",
+  "chapter_start_times": [
+    [
+      12.2,
+      "Lamentations 1"
+    ],
+    [
+      294.2,
+      "Lamentations 2"
+    ],
+    [
+      583.6,
+      "Lamentations 3"
+    ],
+    [
+      890.3,
+      "Lamentations 4"
+    ],
+    [
+      1102.7,
+      "Lamentations 5"
+    ],
+    [
+      1222.0,
+      "Psalm 137"
+    ],
+    [
+      1288.4,
+      "1 Peter 4"
+    ]
+  ]
+}
