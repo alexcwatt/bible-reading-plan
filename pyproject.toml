@@ -15,6 +15,7 @@ ffmpeg-python = "^0.2.0"
 google-cloud-texttospeech = "^2.21.0"
 dotenv = "^0.9.9"
 feedgen = "^1.0.0"
+pyyaml = "^6.0.3"
 
 [poetry.group.dev.dependencies]
 pytest = "^8.3"
