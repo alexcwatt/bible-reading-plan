@@ -4,11 +4,13 @@ import unittest.mock as mock
 
 import pytest
 
+from bible_reading_plan.utils.plans import FIVE_DAY, MCHEYNE_FAMILY
 from bible_reading_plan.utils.podcast_episode import PodcastEpisode, _create_chapter_announcement_text
 from bible_reading_plan.utils.readings import ScheduledReading
 
+# Week 1, Day 3 -> index 2 in the five-day plan.
 scheduled_reading = ScheduledReading(
-    "Gen 6-8; Psalm 104; Mark 3", datetime.date(2025, 1, 1), 1, 3
+    FIVE_DAY, "Gen 6-8; Psalm 104; Mark 3", datetime.date(2025, 1, 1), 2
 )
 
 
@@ -98,6 +100,12 @@ def test_create_chapter_announcement_text_psalm():
     assert result == '<speak>Psalm <say-as interpret-as="cardinal">104</say-as></speak>'
 
 
+def test_create_chapter_announcement_text_strips_verses():
+    """Partial-chapter readings still announce as the whole chapter."""
+    assert _create_chapter_announcement_text("Luke 1:1-38") == "<speak>Luke chapter 1</speak>"
+    assert _create_chapter_announcement_text("Psalm 78:1-37") == '<speak>Psalm <say-as interpret-as="cardinal">78</say-as></speak>'
+
+
 class TestSecondsToTimestamp:
     """Tests for _seconds_to_timestamp static method."""
 
@@ -184,7 +192,16 @@ class TestMetadata:
 
     def test_metadata_file_path(self):
         episode = PodcastEpisode(scheduled_reading)
-        assert episode.metadata_file_path() == "bible_reading_plan/metadata/episodes/W01_D03.json"
+        assert episode.metadata_file_path() == "bible_reading_plan/metadata/episodes/five-day/W01_D03.json"
+
+    def test_metadata_file_path_mcheyne(self):
+        mcheyne_reading = ScheduledReading(
+            MCHEYNE_FAMILY, "Genesis 1; Matthew 1", datetime.date(2026, 1, 1), 0
+        )
+        episode = PodcastEpisode(mcheyne_reading)
+        assert episode.metadata_file_path() == "bible_reading_plan/metadata/episodes/mcheyne-family/D001.json"
+        assert episode.file_path() == "build/readings/mcheyne-family/D001.mp3"
+        assert episode.title() == "Day 1: Genesis 1; and Matthew 1"
 
     def test_save_and_load_metadata(self, tmp_path):
         episode = PodcastEpisode(scheduled_reading)
@@ -265,24 +282,20 @@ class TestMetadata:
 class TestMetadataFilesExist:
     """Test that all expected metadata files are committed to the repo."""
 
-    TOTAL_WEEKS = 52
-    DAYS_PER_WEEK = 5
+    def test_all_five_day_metadata_files_exist(self):
+        """Verify all 260 five-day episode metadata files exist.
 
-    def test_all_metadata_files_exist(self):
-        """Verify all 260 episode metadata files exist.
-
-        If this test fails, run: podcast-bible-plan build-audio
+        If this test fails, run: podcast-bible-plan build-audio --plan five-day
         to generate the missing metadata files, then commit them.
         """
         missing_files = []
-        metadata_dir = "bible_reading_plan/metadata/episodes"
+        metadata_dir = "bible_reading_plan/metadata/episodes/five-day"
 
-        for week in range(1, self.TOTAL_WEEKS + 1):
-            for day in range(1, self.DAYS_PER_WEEK + 1):
-                filename = f"W{week:02d}_D{day:02d}.json"
-                filepath = os.path.join(metadata_dir, filename)
-                if not os.path.exists(filepath):
-                    missing_files.append(filename)
+        for index in range(FIVE_DAY.expected_readings):
+            filename = f"{FIVE_DAY.episode_id(index)}.json"
+            filepath = os.path.join(metadata_dir, filename)
+            if not os.path.exists(filepath):
+                missing_files.append(filename)
 
         if missing_files:
             missing_count = len(missing_files)
@@ -293,6 +306,6 @@ class TestMetadataFilesExist:
 
             pytest.fail(
                 f"Missing {missing_count} metadata file(s): {sample_str}\n\n"
-                f"To fix, run: podcast-bible-plan build-audio\n"
+                f"To fix, run: podcast-bible-plan build-audio --plan five-day\n"
                 f"Then commit the generated files in {metadata_dir}/"
             )

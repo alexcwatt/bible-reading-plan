@@ -1,5 +1,13 @@
-years:
-  2025:
-    start_date: "2024-12-30"
-  2026:
-    start_date: "2025-12-29"
+plans:
+  five-day:
+    years:
+      2025:
+        start_date: "2024-12-30"
+      2026:
+        start_date: "2025-12-29"
+  # mcheyne-family and mcheyne-private use the same structure; add a year here
+  # when you want to build that plan's feed, e.g.:
+  # mcheyne-family:
+  #   years:
+  #     2026:
+  #       start_date: "2026-01-01"

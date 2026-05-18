@@ -1,10 +1,7 @@
-from datetime import timedelta
 from .bible_books import full_book_name_from_abbreviation
+from .plans import FIVE_DAY
 
 import re
-
-WEEKS_IN_YEAR = 52
-READINGS_PER_WEEK = 5
 
 
 def apply_psalm_ssml(text):
@@ -56,6 +53,12 @@ class ScriptureReading:
 
             if chapter_part is None:
                 chapters.append(full_book_name)
+            elif "," in chapter_part:
+                for chapter in chapter_part.split(","):
+                    chapters.append(f"{full_book_name} {chapter.strip()}")
+            elif ":" in chapter_part:
+                # Verse-range reference like "1:1-38" — keep as single entry.
+                chapters.append(f"{full_book_name} {chapter_part}")
             elif "-" in chapter_part:
                 start, end = chapter_part.split("-")
                 start = int(start.strip())
@@ -63,10 +66,6 @@ class ScriptureReading:
                 chapters.extend(
                     [f"{full_book_name} {chapter}" for chapter in range(start, end + 1)]
                 )
-            elif "," in chapter_part:
-                for chapter in chapter_part.split(","):
-                    chapter = chapter.strip()
-                    chapters.append(f"{full_book_name} {chapter}")
             else:
                 chapters.append(f"{full_book_name} {chapter_part}")
 
@@ -125,58 +124,59 @@ class ScriptureReading:
 
 class ScheduledReading:
     """
-    Represents a scheduled reading with metadata such as due date, week, and day.
+    Represents a scheduled reading with its plan, due date, and position within the plan.
     """
 
-    def __init__(self, scripture_reading, due_date, week, day):
+    def __init__(self, plan, scripture_reading, due_date, index):
+        self.plan = plan
         self.scripture_reading = ScriptureReading(scripture_reading)
         self.due_date = due_date
-        self.week = week
-        self.day = day
+        self.index = index
 
     def __repr__(self):
         return (
-            f"ScheduledReading(scripture_reading={self.scripture_reading.raw_reading}, "
-            f"due_date={self.due_date}, week={self.week}, day={self.day})"
+            f"ScheduledReading(plan={self.plan.name}, "
+            f"scripture_reading={self.scripture_reading.raw_reading}, "
+            f"due_date={self.due_date}, index={self.index})"
         )
 
+    @property
+    def identifier(self):
+        return self.plan.episode_id(self.index)
+
+    @property
+    def title_prefix(self):
+        return self.plan.episode_title_prefix(self.index)
+
+    @property
+    def intro_speech_prefix(self):
+        return self.plan.intro_speech_prefix(self.index)
+
     def reading_nice_name(self):
-        """
-        Returns a human-readable name for the reading.
-        """
         return self.scripture_reading.nice_name()
 
 
-def readings():
+def readings(plan):
     """
-    Reads the readings from the 'readings.txt' file and validates the count.
+    Reads the readings for a plan and validates the count.
     """
-    with open("readings.txt", "r") as file:
-        lines = [line.strip() for line in file]
+    with open(plan.readings_file, "r") as file:
+        lines = [line.strip() for line in file if line.strip()]
 
-    expected_readings = WEEKS_IN_YEAR * READINGS_PER_WEEK
-    assert (
-        len(lines) == expected_readings
-    ), f"Incorrect number of readings. Expected {expected_readings}, got {len(lines)}."
+    assert len(lines) == plan.expected_readings, (
+        f"Incorrect number of readings in {plan.readings_file}. "
+        f"Expected {plan.expected_readings}, got {len(lines)}."
+    )
     return lines
 
 
-def readings_with_dates(first_monday):
+def readings_with_dates(plan, start_date):
     """
-    Generates a list of ScheduledReading objects with their corresponding due dates.
+    Generates ScheduledReading objects for a plan starting on start_date.
     """
-    all_readings = readings()
-    readings_with_dates = []
-
-    for week in range(WEEKS_IN_YEAR):
-        for day in range(READINGS_PER_WEEK):
-            index = week * READINGS_PER_WEEK + day
-
-            scripture_reading = all_readings[index]
-            date = first_monday + timedelta(weeks=week, days=day)
-
-            readings_with_dates.append(
-                ScheduledReading(scripture_reading, date, week + 1, day + 1)
-            )
-
-    return readings_with_dates
+    all_readings = readings(plan)
+    dates = plan.schedule_dates(start_date)
+    return [
+        ScheduledReading(plan, raw, due_date, index)
+        for index, (raw, due_date) in enumerate(zip(all_readings, dates))
+    ]
