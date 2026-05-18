@@ -127,7 +127,7 @@ class ScheduledReading:
     Represents a scheduled reading with its plan, due date, and position within the plan.
     """
 
-    def __init__(self, plan, scripture_reading, due_date, index):
+    def __init__(self, plan, scripture_reading, due_date=None, index=0):
         self.plan = plan
         self.scripture_reading = ScriptureReading(scripture_reading)
         self.due_date = due_date
@@ -170,13 +170,23 @@ def readings(plan):
     return lines
 
 
+def plan_readings(plan):
+    """
+    Generates ScheduledReading objects for a plan with no due dates.
+    Useful for tasks like building audio that don't depend on scheduling.
+    """
+    return [
+        ScheduledReading(plan, raw, index=index)
+        for index, raw in enumerate(readings(plan))
+    ]
+
+
 def readings_with_dates(plan, start_date):
     """
     Generates ScheduledReading objects for a plan starting on start_date.
     """
-    all_readings = readings(plan)
     dates = plan.schedule_dates(start_date)
     return [
         ScheduledReading(plan, raw, due_date, index)
-        for index, (raw, due_date) in enumerate(zip(all_readings, dates))
+        for index, (raw, due_date) in enumerate(zip(readings(plan), dates))
     ]

@@ -9,7 +9,7 @@ import yaml
 
 from bible_reading_plan.utils.plans import PLANS, get_plan
 from bible_reading_plan.utils.podcast_episode import PodcastEpisode
-from bible_reading_plan.utils.readings import readings_with_dates
+from bible_reading_plan.utils.readings import plan_readings, readings_with_dates
 
 load_dotenv()
 
@@ -43,11 +43,11 @@ def get_configured_years(plan):
     return sorted(plan_config.get("years", {}).keys())
 
 
-def build_audio_files(plan, year, count=None, force=False):
+def build_audio_files(plan, count=None, force=False):
     generated_count = 0
     cached_count = 0
 
-    scheduled_readings = get_scheduled_readings_for_year(plan, year)
+    scheduled_readings = plan_readings(plan)
     readings_to_build = scheduled_readings[:count] if count else scheduled_readings
 
     for scheduled_reading in readings_to_build:
@@ -145,12 +145,6 @@ def main():
     )
     _add_plan_arg(parser_audio)
     parser_audio.add_argument(
-        "-y", "--year",
-        type=int,
-        required=True,
-        help="Year to build audio files for (must be configured in podcast_config.yaml)"
-    )
-    parser_audio.add_argument(
         "-n", "--count",
         type=int,
         metavar="N",
@@ -182,7 +176,7 @@ def main():
     plan = get_plan(args.plan)
 
     if args.command == "build-audio":
-        build_audio_files(plan=plan, year=args.year, count=args.count, force=args.force)
+        build_audio_files(plan=plan, count=args.count, force=args.force)
     elif args.command == "build-feed":
         if args.all_years:
             for year in get_configured_years(plan):

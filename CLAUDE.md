@@ -25,7 +25,7 @@ This is a Python project that automates Bible reading plans. It supports three p
 Both CLIs accept `--plan {five-day,mcheyne-family,mcheyne-private}` (default: `five-day`).
 
 - Todoist importer: `TODOIST_API_TOKEN=token TODOIST_PROJECT_ID=id todoist-bible-plan [--plan PLAN]`
-- Podcast builder: `podcast-bible-plan {build-audio,build-feed} [--plan PLAN] -y YEAR`
+- Podcast builder: `podcast-bible-plan {build-audio,build-feed} [--plan PLAN]` (build-feed additionally requires `-y YEAR` or `--all-years`; build-audio doesn't depend on dates)
 
 ## Architecture
 

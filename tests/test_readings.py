@@ -4,6 +4,7 @@ from bible_reading_plan.utils.plans import FIVE_DAY
 from bible_reading_plan.utils.readings import (
     ScriptureReading,
     apply_psalm_ssml,
+    plan_readings,
     readings,
     readings_with_dates,
 )
@@ -134,3 +135,12 @@ def test_readings_with_dates_five_day_schedule():
     # Week-2 Monday should skip the weekend.
     assert scheduled[5].due_date == date(2025, 1, 13)
     assert scheduled[5].identifier == "W02_D01"
+
+
+def test_plan_readings_has_no_dates():
+    """plan_readings yields ScheduledReadings without due dates."""
+    scheduled = plan_readings(FIVE_DAY)
+    assert len(scheduled) == FIVE_DAY.expected_readings
+    assert all(r.due_date is None for r in scheduled)
+    assert scheduled[0].identifier == "W01_D01"
+    assert scheduled[-1].identifier == "W52_D05"
