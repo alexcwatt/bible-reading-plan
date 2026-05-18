@@ -17,7 +17,7 @@ dotenv = "^0.9.9"
 feedgen = "^1.0.0"
 pyyaml = "^6.0.3"
 
-[poetry.group.dev.dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^8.3"
 
 [tool.poetry.scripts]
