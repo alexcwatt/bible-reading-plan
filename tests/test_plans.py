@@ -91,13 +91,33 @@ def test_mcheyne_intro_speech_prefix():
     assert MCHEYNE_FAMILY.intro_speech_prefix(0) == "Day 1"
 
 
-def test_five_day_source_file_is_parseable():
-    """Every line of the five-day plan must parse into one or more chapters."""
+@pytest.mark.parametrize("plan", [FIVE_DAY, MCHEYNE_FAMILY, MCHEYNE_PRIVATE])
+def test_plan_source_file_is_parseable(plan):
+    """Every line of each plan must parse into one or more chapters."""
     from bible_reading_plan.utils.readings import ScriptureReading, readings
 
-    lines = readings(FIVE_DAY)
-    assert len(lines) == FIVE_DAY.expected_readings
+    lines = readings(plan)
+    assert len(lines) == plan.expected_readings
     for line_no, raw in enumerate(lines, start=1):
         chapters = ScriptureReading(raw).to_chapters()
-        assert chapters, f"five-day line {line_no} ({raw!r}) yielded no chapters"
+        assert chapters, f"{plan.name} line {line_no} ({raw!r}) yielded no chapters"
+        # nice_name should not raise
         ScriptureReading(raw).nice_name()
+
+
+def test_mcheyne_known_canonical_rows():
+    """Sanity-check a few specific days against the canonical PDF."""
+    from bible_reading_plan.utils.readings import readings
+
+    family = readings(MCHEYNE_FAMILY)
+    private = readings(MCHEYNE_PRIVATE)
+
+    # Day 1 of M'Cheyne (Jan 1)
+    assert family[0] == "Genesis 1; Matthew 1"
+    assert private[0] == "Ezra 1; Acts 1"
+    # Day 45 / 46 family — Luke 1 split
+    assert family[44] == "Genesis 47; Luke 1:1-38"
+    assert family[45] == "Genesis 48; Luke 1:39-80"
+    # Day 365 (Dec 31)
+    assert family[364] == "2 Chronicles 36; Revelation 22"
+    assert private[364] == "Malachi 4; John 21"

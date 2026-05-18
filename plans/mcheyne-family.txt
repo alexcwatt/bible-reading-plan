@@ -1,0 +1,365 @@
+Genesis 1; Matthew 1
+Genesis 2; Matthew 2
+Genesis 3; Matthew 3
+Genesis 4; Matthew 4
+Genesis 5; Matthew 5
+Genesis 6; Matthew 6
+Genesis 7; Matthew 7
+Genesis 8; Matthew 8
+Genesis 9, 10; Matthew 9
+Genesis 11; Matthew 10
+Genesis 12; Matthew 11
+Genesis 13; Matthew 12
+Genesis 14; Matthew 13
+Genesis 15; Matthew 14
+Genesis 16; Matthew 15
+Genesis 17; Matthew 16
+Genesis 18; Matthew 17
+Genesis 19; Matthew 18
+Genesis 20; Matthew 19
+Genesis 21; Matthew 20
+Genesis 22; Matthew 21
+Genesis 23; Matthew 22
+Genesis 24; Matthew 23
+Genesis 25; Matthew 24
+Genesis 26; Matthew 25
+Genesis 27; Matthew 26
+Genesis 28; Matthew 27
+Genesis 29; Matthew 28
+Genesis 30; Mark 1
+Genesis 31; Mark 2
+Genesis 32; Mark 3
+Genesis 33; Mark 4
+Genesis 34; Mark 5
+Genesis 35, 36; Mark 6
+Genesis 37; Mark 7
+Genesis 38; Mark 8
+Genesis 39; Mark 9
+Genesis 40; Mark 10
+Genesis 41; Mark 11
+Genesis 42; Mark 12
+Genesis 43; Mark 13
+Genesis 44; Mark 14
+Genesis 45; Mark 15
+Genesis 46; Mark 16
+Genesis 47; Luke 1:1-38
+Genesis 48; Luke 1:39-80
+Genesis 49; Luke 2
+Genesis 50; Luke 3
+Exodus 1; Luke 4
+Exodus 2; Luke 5
+Exodus 3; Luke 6
+Exodus 4; Luke 7
+Exodus 5; Luke 8
+Exodus 6; Luke 9
+Exodus 7; Luke 10
+Exodus 8; Luke 11
+Exodus 9; Luke 12
+Exodus 10; Luke 13
+Exodus 11, 12:1-21; Luke 14
+Exodus 12:22-51; Luke 15
+Exodus 13; Luke 16
+Exodus 14; Luke 17
+Exodus 15; Luke 18
+Exodus 16; Luke 19
+Exodus 17; Luke 20
+Exodus 18; Luke 21
+Exodus 19; Luke 22
+Exodus 20; Luke 23
+Exodus 21; Luke 24
+Exodus 22; John 1
+Exodus 23; John 2
+Exodus 24; John 3
+Exodus 25; John 4
+Exodus 26; John 5
+Exodus 27; John 6
+Exodus 28; John 7
+Exodus 29; John 8
+Exodus 30; John 9
+Exodus 31; John 10
+Exodus 32; John 11
+Exodus 33; John 12
+Exodus 34; John 13
+Exodus 35; John 14
+Exodus 36; John 15
+Exodus 37; John 16
+Exodus 38; John 17
+Exodus 39; John 18
+Exodus 40; John 19
+Leviticus 1; John 20
+Leviticus 2, 3; John 21
+Leviticus 4; Psalms 1, 2
+Leviticus 5; Psalms 3, 4
+Leviticus 6; Psalms 5, 6
+Leviticus 7; Psalms 7, 8
+Leviticus 8; Psalms 9
+Leviticus 9; Psalms 10
+Leviticus 10; Psalms 11, 12
+Leviticus 11, 12; Psalms 13, 14
+Leviticus 13; Psalms 15, 16
+Leviticus 14; Psalms 17
+Leviticus 15; Psalms 18
+Leviticus 16; Psalms 19
+Leviticus 17; Psalms 20, 21
+Leviticus 18; Psalms 22
+Leviticus 19; Psalms 23, 24
+Leviticus 20; Psalms 25
+Leviticus 21; Psalms 26, 27
+Leviticus 22; Psalms 28, 29
+Leviticus 23; Psalms 30
+Leviticus 24; Psalms 31
+Leviticus 25; Psalms 32
+Leviticus 26; Psalms 33
+Leviticus 27; Psalms 34
+Numbers 1; Psalms 35
+Numbers 2; Psalms 36
+Numbers 3; Psalms 37
+Numbers 4; Psalms 38
+Numbers 5; Psalms 39
+Numbers 6; Psalms 40, 41
+Numbers 7; Psalms 42, 43
+Numbers 8; Psalms 44
+Numbers 9; Psalms 45
+Numbers 10; Psalms 46, 47
+Numbers 11; Psalms 48
+Numbers 12, 13; Psalms 49
+Numbers 14; Psalms 50
+Numbers 15; Psalms 51
+Numbers 16; Psalms 52, 53, 54
+Numbers 17, 18; Psalms 55
+Numbers 19; Psalms 56, 57
+Numbers 20; Psalms 58, 59
+Numbers 21; Psalms 60, 61
+Numbers 22; Psalms 62, 63
+Numbers 23; Psalms 64, 65
+Numbers 24; Psalms 66, 67
+Numbers 25; Psalms 68
+Numbers 26; Psalms 69
+Numbers 27; Psalms 70, 71
+Numbers 28; Psalms 72
+Numbers 29; Psalms 73
+Numbers 30; Psalms 74
+Numbers 31; Psalms 75, 76
+Numbers 32; Psalms 77
+Numbers 33; Psalms 78:1-37
+Numbers 34; Psalms 78:38-72
+Numbers 35; Psalms 79
+Numbers 36; Psalms 80
+Deuteronomy 1; Psalms 81, 82
+Deuteronomy 2; Psalms 83, 84
+Deuteronomy 3; Psalms 85
+Deuteronomy 4; Psalms 86, 87
+Deuteronomy 5; Psalms 88
+Deuteronomy 6; Psalms 89
+Deuteronomy 7; Psalms 90
+Deuteronomy 8; Psalms 91
+Deuteronomy 9; Psalms 92, 93
+Deuteronomy 10; Psalms 94
+Deuteronomy 11; Psalms 95, 96
+Deuteronomy 12; Psalms 97, 98
+Deuteronomy 13, 14; Psalms 99, 100, 101
+Deuteronomy 15; Psalms 102
+Deuteronomy 16; Psalms 103
+Deuteronomy 17; Psalms 104
+Deuteronomy 18; Psalms 105
+Deuteronomy 19; Psalms 106
+Deuteronomy 20; Psalms 107
+Deuteronomy 21; Psalms 108, 109
+Deuteronomy 22; Psalms 110, 111
+Deuteronomy 23; Psalms 112, 113
+Deuteronomy 24; Psalms 114, 115
+Deuteronomy 25; Psalms 116
+Deuteronomy 26; Psalms 117, 118
+Deuteronomy 27, 28:1-19; Psalms 119:1-24
+Deuteronomy 28:20-68; Psalms 119:25-48
+Deuteronomy 29; Psalms 119:49-72
+Deuteronomy 30; Psalms 119:73-96
+Deuteronomy 31; Psalms 119:97-120
+Deuteronomy 32; Psalms 119:121-144
+Deuteronomy 33, 34; Psalms 119:145-176
+Joshua 1; Psalms 120, 121, 122
+Joshua 2; Psalms 123, 124, 125
+Joshua 3; Psalms 126, 127, 128
+Joshua 4; Psalms 129, 130, 131
+Joshua 5, 6:1-5; Psalms 132, 133, 134
+Joshua 6:6-27; Psalms 135, 136
+Joshua 7; Psalms 137, 138
+Joshua 8; Psalms 139
+Joshua 9; Psalms 140, 141
+Joshua 10; Psalms 142, 143
+Joshua 11; Psalms 144
+Joshua 12, 13; Psalms 145
+Joshua 14, 15; Psalms 146, 147
+Joshua 16, 17; Psalms 148
+Joshua 18, 19; Psalms 149, 150
+Joshua 20, 21; Acts 1
+Joshua 22; Acts 2
+Joshua 23; Acts 3
+Joshua 24; Acts 4
+Judges 1; Acts 5
+Judges 2; Acts 6
+Judges 3; Acts 7
+Judges 4; Acts 8
+Judges 5; Acts 9
+Judges 6; Acts 10
+Judges 7; Acts 11
+Judges 8; Acts 12
+Judges 9; Acts 13
+Judges 10, 11:1-11; Acts 14
+Judges 11:12-40; Acts 15
+Judges 12; Acts 16
+Judges 13; Acts 17
+Judges 14; Acts 18
+Judges 15; Acts 19
+Judges 16; Acts 20
+Judges 17; Acts 21
+Judges 18; Acts 22
+Judges 19; Acts 23
+Judges 20; Acts 24
+Judges 21; Acts 25
+Ruth 1; Acts 26
+Ruth 2; Acts 27
+Ruth 3, 4; Acts 28
+1 Samuel 1; Romans 1
+1 Samuel 2; Romans 2
+1 Samuel 3; Romans 3
+1 Samuel 4; Romans 4
+1 Samuel 5, 6; Romans 5
+1 Samuel 7, 8; Romans 6
+1 Samuel 9; Romans 7
+1 Samuel 10; Romans 8
+1 Samuel 11; Romans 9
+1 Samuel 12; Romans 10
+1 Samuel 13; Romans 11
+1 Samuel 14; Romans 12
+1 Samuel 15; Romans 13
+1 Samuel 16; Romans 14
+1 Samuel 17; Romans 15
+1 Samuel 18; Romans 16
+1 Samuel 19; 1 Corinthians 1
+1 Samuel 20; 1 Corinthians 2
+1 Samuel 21, 22; 1 Corinthians 3
+1 Samuel 23; 1 Corinthians 4
+1 Samuel 24; 1 Corinthians 5
+1 Samuel 25; 1 Corinthians 6
+1 Samuel 26; 1 Corinthians 7
+1 Samuel 27; 1 Corinthians 8
+1 Samuel 28; 1 Corinthians 9
+1 Samuel 29, 30; 1 Corinthians 10
+1 Samuel 31; 1 Corinthians 11
+2 Samuel 1; 1 Corinthians 12
+2 Samuel 2; 1 Corinthians 13
+2 Samuel 3; 1 Corinthians 14
+2 Samuel 4, 5; 1 Corinthians 15
+2 Samuel 6; 1 Corinthians 16
+2 Samuel 7; 2 Corinthians 1
+2 Samuel 8, 9; 2 Corinthians 2
+2 Samuel 10; 2 Corinthians 3
+2 Samuel 11; 2 Corinthians 4
+2 Samuel 12; 2 Corinthians 5
+2 Samuel 13; 2 Corinthians 6
+2 Samuel 14; 2 Corinthians 7
+2 Samuel 15; 2 Corinthians 8
+2 Samuel 16; 2 Corinthians 9
+2 Samuel 17; 2 Corinthians 10
+2 Samuel 18; 2 Corinthians 11
+2 Samuel 19; 2 Corinthians 12
+2 Samuel 20; 2 Corinthians 13
+2 Samuel 21; Galatians 1
+2 Samuel 22; Galatians 2
+2 Samuel 23; Galatians 3
+2 Samuel 24; Galatians 4
+1 Kings 1; Galatians 5
+1 Kings 2; Galatians 6
+1 Kings 3; Ephesians 1
+1 Kings 4, 5; Ephesians 2
+1 Kings 6; Ephesians 3
+1 Kings 7; Ephesians 4
+1 Kings 8; Ephesians 5
+1 Kings 9; Ephesians 6
+1 Kings 10; Philippians 1
+1 Kings 11; Philippians 2
+1 Kings 12; Philippians 3
+1 Kings 13; Philippians 4
+1 Kings 14; Colossians 1
+1 Kings 15; Colossians 2
+1 Kings 16; Colossians 3
+1 Kings 17; Colossians 4
+1 Kings 18; 1 Thessalonians 1
+1 Kings 19; 1 Thessalonians 2
+1 Kings 20; 1 Thessalonians 3
+1 Kings 21; 1 Thessalonians 4
+1 Kings 22; 1 Thessalonians 5
+2 Kings 1; 2 Thessalonians 1
+2 Kings 2; 2 Thessalonians 2
+2 Kings 3; 2 Thessalonians 3
+2 Kings 4; 1 Timothy 1
+2 Kings 5; 1 Timothy 2
+2 Kings 6; 1 Timothy 3
+2 Kings 7; 1 Timothy 4
+2 Kings 8; 1 Timothy 5
+2 Kings 9; 1 Timothy 6
+2 Kings 10; 2 Timothy 1
+2 Kings 11, 12; 2 Timothy 2
+2 Kings 13; 2 Timothy 3
+2 Kings 14; 2 Timothy 4
+2 Kings 15; Titus 1
+2 Kings 16; Titus 2
+2 Kings 17; Titus 3
+2 Kings 18; Philemon 1
+2 Kings 19; Hebrews 1
+2 Kings 20; Hebrews 2
+2 Kings 21; Hebrews 3
+2 Kings 22; Hebrews 4
+2 Kings 23; Hebrews 5
+2 Kings 24; Hebrews 6
+2 Kings 25; Hebrews 7
+1 Chronicles 1, 2; Hebrews 8
+1 Chronicles 3, 4; Hebrews 9
+1 Chronicles 5, 6; Hebrews 10
+1 Chronicles 7, 8; Hebrews 11
+1 Chronicles 9, 10; Hebrews 12
+1 Chronicles 11, 12; Hebrews 13
+1 Chronicles 13, 14; James 1
+1 Chronicles 15; James 2
+1 Chronicles 16; James 3
+1 Chronicles 17; James 4
+1 Chronicles 18; James 5
+1 Chronicles 19, 20; 1 Peter 1
+1 Chronicles 21; 1 Peter 2
+1 Chronicles 22; 1 Peter 3
+1 Chronicles 23; 1 Peter 4
+1 Chronicles 24, 25; 1 Peter 5
+1 Chronicles 26, 27; 2 Peter 1
+1 Chronicles 28; 2 Peter 2
+1 Chronicles 29; 2 Peter 3
+2 Chronicles 1; 1 John 1
+2 Chronicles 2; 1 John 2
+2 Chronicles 3, 4; 1 John 3
+2 Chronicles 5, 6:1-11; 1 John 4
+2 Chronicles 6:12-42; 1 John 5
+2 Chronicles 7; 2 John 1
+2 Chronicles 8; 3 John 1
+2 Chronicles 9; Jude 1
+2 Chronicles 10; Revelation 1
+2 Chronicles 11, 12; Revelation 2
+2 Chronicles 13; Revelation 3
+2 Chronicles 14, 15; Revelation 4
+2 Chronicles 16; Revelation 5
+2 Chronicles 17; Revelation 6
+2 Chronicles 18; Revelation 7
+2 Chronicles 19, 20; Revelation 8
+2 Chronicles 21; Revelation 9
+2 Chronicles 22, 23; Revelation 10
+2 Chronicles 24; Revelation 11
+2 Chronicles 25; Revelation 12
+2 Chronicles 26; Revelation 13
+2 Chronicles 27, 28; Revelation 14
+2 Chronicles 29; Revelation 15
+2 Chronicles 30; Revelation 16
+2 Chronicles 31; Revelation 17
+2 Chronicles 32; Revelation 18
+2 Chronicles 33; Revelation 19
+2 Chronicles 34; Revelation 20
+2 Chronicles 35; Revelation 21
+2 Chronicles 36; Revelation 22
