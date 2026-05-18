@@ -1,6 +1,6 @@
-# Five Day Bible Reading Plan - Todoist Integration
+# Bible Reading Plan - Todoist Integration
 
-Read the Bible in a year with the [Five Day Bible Reading Plan](https://www.fivedaybiblereading.com/) and track your progress in [Todoist](https://todoist.com/).
+Read the Bible in a year with the [Five Day Bible Reading Plan](https://www.fivedaybiblereading.com/) or Robert Murray M'Cheyne's [Daily Bread](https://www.mcheyne.info/) (family or private track), and track your progress in [Todoist](https://todoist.com/).
 
 ## About
 
@@ -23,6 +23,7 @@ You'll need Python installed to use this tool.
 3. Clone this repository: `git clone git@github.com:alexcwatt/bible-reading-plan`
 4. Install the package: `pip install -e .`
 5. Run the importer to add the reading schedule to Todoist: `TODOIST_API_TOKEN=yourtoken TODOIST_PROJECT_ID=yourprojectid todoist-bible-plan`
+   - Use `--plan mcheyne-family` or `--plan mcheyne-private` to import a M'Cheyne track instead of the default Five Day plan.
 
 ## Podcast
 

@@ -1,4 +1,13 @@
-from bible_reading_plan.utils.readings import ScriptureReading, apply_psalm_ssml
+from datetime import date
+
+from bible_reading_plan.utils.plans import FIVE_DAY
+from bible_reading_plan.utils.readings import (
+    ScriptureReading,
+    apply_psalm_ssml,
+    plan_readings,
+    readings,
+    readings_with_dates,
+)
 
 
 def test_reading_to_chapters():
@@ -25,6 +34,25 @@ def test_reading_to_chapters_for_single_chapter_books():
     reading = ScriptureReading("Obadiah; Jude; Philemon; Psalm 117")
     expected = ["Obadiah", "Jude", "Philemon", "Psalm 117"]
     assert reading.to_chapters() == expected
+
+
+def test_reading_to_chapters_with_verse_range():
+    """Partial-chapter readings (M'Cheyne style) are kept as one entry."""
+    reading = ScriptureReading("Luke 1:1-38")
+    assert reading.to_chapters() == ["Luke 1:1-38"]
+
+    reading = ScriptureReading("Zechariah 13:2-9")
+    assert reading.to_chapters() == ["Zechariah 13:2-9"]
+
+
+def test_reading_to_chapters_with_chapter_then_partial():
+    reading = ScriptureReading("Exodus 11, 12:1-21; Luke 14")
+    assert reading.to_chapters() == ["Exodus 11", "Exodus 12:1-21", "Luke 14"]
+
+
+def test_reading_to_chapters_two_partials():
+    reading = ScriptureReading("Isaiah 9:7-21, 10:1-4")
+    assert reading.to_chapters() == ["Isaiah 9:7-21", "Isaiah 10:1-4"]
 
 
 def test_reading_nice_name():
@@ -85,3 +113,34 @@ def test_apply_psalm_ssml_in_mixed_reading():
     """Test Psalm formatting within a mixed reading string."""
     result = apply_psalm_ssml("Genesis 1-3; Psalm 104; and Mark 1")
     assert result == 'Genesis 1-3; Psalm <say-as interpret-as="cardinal">104</say-as>; and Mark 1'
+
+
+def test_readings_loads_five_day_plan():
+    lines = readings(FIVE_DAY)
+    assert len(lines) == FIVE_DAY.expected_readings
+    assert lines[0] == "Genesis 1-2; Psalm 19; Mark 1"
+
+
+def test_readings_with_dates_five_day_schedule():
+    # Monday, January 6, 2025
+    scheduled = readings_with_dates(FIVE_DAY, date(2025, 1, 6))
+    assert len(scheduled) == FIVE_DAY.expected_readings
+
+    first = scheduled[0]
+    assert first.plan is FIVE_DAY
+    assert first.due_date == date(2025, 1, 6)
+    assert first.identifier == "W01_D01"
+    assert first.title_prefix == "Week 1, Day 1"
+
+    # Week-2 Monday should skip the weekend.
+    assert scheduled[5].due_date == date(2025, 1, 13)
+    assert scheduled[5].identifier == "W02_D01"
+
+
+def test_plan_readings_has_no_dates():
+    """plan_readings yields ScheduledReadings without due dates."""
+    scheduled = plan_readings(FIVE_DAY)
+    assert len(scheduled) == FIVE_DAY.expected_readings
+    assert all(r.due_date is None for r in scheduled)
+    assert scheduled[0].identifier == "W01_D01"
+    assert scheduled[-1].identifier == "W52_D05"

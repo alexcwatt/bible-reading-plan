@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Python project that automates the Five Day Bible Reading Plan. It has two main functionalities:
+This is a Python project that automates Bible reading plans. It supports three plans (the Five Day Bible Reading Plan and the two tracks of Robert Murray M'Cheyne's Daily Bread) and has two main functionalities:
 1. **Todoist Integration**: Imports daily Bible readings into Todoist as tasks
 2. **Podcast Generation**: Creates audio podcast episodes for each day's reading using ESV API audio and Google TTS
 
@@ -22,20 +22,28 @@ This is a Python project that automates the Five Day Bible Reading Plan. It has 
 - Add dev dependency: `poetry add --group dev package-name`
 
 ### CLI Applications
-- Todoist importer: `TODOIST_API_TOKEN=token TODOIST_PROJECT_ID=id todoist-bible-plan`
-- Podcast builder: `podcast-bible-plan`
+Both CLIs accept `--plan {five-day,mcheyne-family,mcheyne-private}` (default: `five-day`).
+
+- Todoist importer: `TODOIST_API_TOKEN=token TODOIST_PROJECT_ID=id todoist-bible-plan [--plan PLAN]`
+- Podcast builder: `podcast-bible-plan {build-audio,build-feed} [--plan PLAN]` (build-feed additionally requires `-y YEAR` or `--all-years`; build-audio doesn't depend on dates)
 
 ## Architecture
 
 ### Core Data Model
-The project centers around two main classes in `utils/readings.py`:
+The project centers around three main pieces:
 
-- **`ScriptureReading`**: Parses raw reading strings (e.g., "Gen 6-8; Psalm 104; Mark 3") into structured data
+- **`ReadingPlan`** (`utils/plans.py`): Describes a plan — its source file, cadence (`weekdays` for the five-day plan, `daily` for M'Cheyne), expected reading count, and how to format an episode identifier and title (e.g., `W01_D03` vs `D045`). Three instances are defined: `FIVE_DAY`, `MCHEYNE_FAMILY`, `MCHEYNE_PRIVATE`.
+- **`ScriptureReading`** (`utils/readings.py`): Parses raw reading strings (e.g., `Gen 6-8; Psalm 104; Mark 3` or `Luke 1:1-38`) into structured data. Handles chapter ranges, comma lists, single-chapter books, and partial-chapter verse references (used by M'Cheyne for long chapters like Luke 1, Psalm 78, Psalm 119).
   - `to_chapters()`: Converts to individual chapter names for API calls
   - `nice_name()`: Formats for human display
-- **`ScheduledReading`**: Combines ScriptureReading with metadata (date, week, day)
+- **`ScheduledReading`**: Combines a `ReadingPlan`, a `ScriptureReading`, a due date, and the reading's `index` within the plan. Exposes `identifier` (e.g., `W01_D03`, `D045`) and `title_prefix` derived from the plan.
 
-The reading plan data comes from `readings.txt` (260 total readings: 52 weeks × 5 days).
+The reading plan data lives in `plans/`:
+- `plans/five-day.txt` — 260 readings (52 weeks × 5 days, Mon–Fri)
+- `plans/mcheyne-family.txt` — 365 readings (Family OT + Family NT)
+- `plans/mcheyne-private.txt` — 365 readings (Private OT + Private NT)
+
+The M'Cheyne files were generated from the canonical PDF at https://www.mcheyne.info/calendar.pdf via `scripts/extract_mcheyne.py`.
 
 ### Podcast Architecture
 Recent refactoring introduced a modular segment-based approach:
@@ -52,8 +60,8 @@ Recent refactoring introduced a modular segment-based approach:
 - **`BufferSegment`**: Generates silence for pauses between segments
 
 ### CLI Applications
-- **`cli/importer.py`**: Interactive Todoist integration requiring API token and project ID
-- **`cli/podcast_builder.py`**: Builds audio files and RSS feed, requires ESV_API_KEY and GCS_BUCKET environment variables
+- **`cli/importer.py`**: Interactive Todoist integration requiring API token and project ID. Accepts `--plan` (default `five-day`). Prompts for the start date (a Monday for five-day; any date for M'Cheyne).
+- **`cli/podcast_builder.py`**: Builds audio files and RSS feed, requires ESV_API_KEY and GCS_BUCKET environment variables. Accepts `--plan` on both `build-audio` and `build-feed` subcommands.
 
 ## Environment Variables
 
@@ -70,10 +78,13 @@ Recent refactoring introduced a modular segment-based approach:
 ## Build Artifacts
 
 The project creates files in `build/` directory:
-- `build/readings/`: Final podcast episode MP3s (W01_D01.mp3 format)
-- `build/tts/`: Cached Google Cloud TTS files (named by text hash)
-- `build/esv_chapters/`: Cached ESV audio files (named by chapter)
+- `build/readings/{plan}/`: Final podcast episode MP3s, namespaced by plan (e.g., `build/readings/five-day/W01_D01.mp3`, `build/readings/mcheyne-family/D001.mp3`)
+- `build/tts/`: Cached Google Cloud TTS files (named by text hash, shared across plans)
+- `build/esv_chapters/`: Cached ESV audio files (named by chapter, shared across plans)
 - `build/silence-{duration}.mp3`: Generated silence files for various durations
+- `build/podcast-{plan}-{year}.xml`: Per-plan, per-year RSS feed
+
+Episode metadata is committed to the repo under `bible_reading_plan/metadata/episodes/{plan}/` so descriptions and chapter timestamps are available without regenerating audio.
 
 ## Dependencies
 

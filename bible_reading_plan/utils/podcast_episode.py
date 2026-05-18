@@ -26,6 +26,11 @@ def _create_chapter_announcement_text(chapter_str):
     # Apply pronunciation correction
     book_name = PRONUNCIATION_MAP.get(book_part, book_part)
 
+    # For partial-chapter references ("1:1-38") announce only the chapter — the
+    # verse range is shown in the title/description but reading it aloud is awkward.
+    if chapter_part and ":" in chapter_part:
+        chapter_part = chapter_part.split(":", 1)[0]
+
     # Build announcement
     if chapter_part:
         announcement_text = f"{book_name} chapter {chapter_part}"
@@ -43,7 +48,7 @@ class PodcastEpisode:
         self.scheduled_reading = scheduled_reading
 
     def title(self):
-        return f"Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}: {self.scheduled_reading.reading_nice_name()}"
+        return f"{self.scheduled_reading.title_prefix}: {self.scheduled_reading.reading_nice_name()}"
 
     def description(self):
         return "<br>".join(
@@ -73,7 +78,7 @@ class PodcastEpisode:
 
     def segments(self):
         reading_ssml = self.scheduled_reading.scripture_reading.nice_name_ssml(wrap_speak=False)
-        intro_text = f"<speak>Week {self.scheduled_reading.week}, Day {self.scheduled_reading.day}. Today's reading is {reading_ssml}.</speak>"
+        intro_text = f"<speak>{self.scheduled_reading.intro_speech_prefix}. Today's reading is {reading_ssml}.</speak>"
         intro_segment = GeneratedSpeechSegment(intro_text)
         segments = [intro_segment]
 
@@ -91,10 +96,10 @@ class PodcastEpisode:
         return segments
 
     def file_path(self):
-        return f"build/readings/W{self.scheduled_reading.week:02d}_D{self.scheduled_reading.day:02d}.mp3"
+        return f"build/readings/{self.scheduled_reading.plan.name}/{self.scheduled_reading.identifier}.mp3"
 
     def metadata_file_path(self):
-        return f"bible_reading_plan/metadata/episodes/W{self.scheduled_reading.week:02d}_D{self.scheduled_reading.day:02d}.json"
+        return f"bible_reading_plan/metadata/episodes/{self.scheduled_reading.plan.name}/{self.scheduled_reading.identifier}.json"
 
     def save_metadata(self):
         """Save episode metadata to JSON file for use without audio files."""
